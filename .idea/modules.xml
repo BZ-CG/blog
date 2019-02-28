@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/blog.iml" filepath="$PROJECT_DIR$/blog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/blog-base/blog-base.iml" filepath="$PROJECT_DIR$/blog-base/blog-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/blog-dao/blog-dao.iml" filepath="$PROJECT_DIR$/blog-dao/blog-dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/blog-service/blog-service.iml" filepath="$PROJECT_DIR$/blog-service/blog-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/blog-web/blog-web.iml" filepath="$PROJECT_DIR$/blog-web/blog-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../spring-boot-data-mybatis/spring-boot-data-mybatis.iml" filepath="$PROJECT_DIR$/../spring-boot-data-mybatis/spring-boot-data-mybatis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../spring-boot-quick/spring-boot-quick.iml" filepath="$PROJECT_DIR$/../spring-boot-quick/spring-boot-quick.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../telephonebook/telephonebook.iml" filepath="$PROJECT_DIR$/../telephonebook/telephonebook.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="telephonebook:war">
+    <output-path>$PROJECT_DIR$/../telephonebook/target</output-path>
+    <root id="archive" name="telephonebook.war">
+      <element id="artifact" artifact-name="telephonebook:war exploded" />
+    </root>
+  </artifact>
+</component>
