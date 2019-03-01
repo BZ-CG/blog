@@ -1,5 +1,6 @@
 package cn.edu.pzhu.blog.web.user;
 
+import cn.edu.pzhu.base.response.ApiResponse;
 import cn.edu.pzhu.blog.dao.user.model.User;
 import cn.edu.pzhu.blog.service.user.UserService;
 import org.slf4j.Logger;
@@ -29,6 +30,7 @@ public class UserController {
     @ResponseBody
     public User getUserById(@RequestParam("id") Integer id) {
 
+        //throw new RuntimeException("这是一个异常信息");
         return userService.getUserById(id);
     }
 
@@ -36,10 +38,10 @@ public class UserController {
 
     @RequestMapping("/user/getAll")
     @ResponseBody
-    public List<User> getAllUser() {
+    public ApiResponse<List<User>> getAllUser() {
 
         LOGGER.error("测试信息------");
-        return userService.getAllUser();
+        return ApiResponse.success(userService.getAllUser());
     }
 
 
