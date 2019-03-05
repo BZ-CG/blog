@@ -6,9 +6,9 @@ package cn.edu.pzhu.base.common;
 public class CommonCodeConstants {
 
     public final static String SUCCESS_CODE = "0001";
-    public final static String SUCCESS_MSG = "Y";
+    public final static String SUCCESS_MSG = "成功";
 
     public final static String FAIL_CODE = "0002";
-    public final static String FAIL_MSG = "N";
+    public final static String FAIL_MSG = "失败";
 
 }
