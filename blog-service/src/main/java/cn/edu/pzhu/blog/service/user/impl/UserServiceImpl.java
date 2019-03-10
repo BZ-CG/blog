@@ -8,9 +8,8 @@ package cn.edu.pzhu.blog.service.user.impl;
 import cn.edu.pzhu.blog.dao.user.UserDAO;
 import cn.edu.pzhu.blog.dao.user.model.User;
 import cn.edu.pzhu.blog.service.user.UserService;
-import com.alibaba.druid.support.json.JSONUtils;
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
-import jdk.nashorn.internal.parser.JSONParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +46,7 @@ public class UserServiceImpl implements UserService {
         User user = null;
         try {
             user = userDAO.getUserById(id);
-            log.info("调用 UserDAO 获取 USER 成功，user:{}", JSONUtils.toJSONString(user));
+            log.info("调用 UserDAO 获取 USER 成功，user:{}", JSON.toJSONString(user));
         } catch (Exception e) {
             log.error("调用 UserDAO 获取 USER 成功", e);
         }

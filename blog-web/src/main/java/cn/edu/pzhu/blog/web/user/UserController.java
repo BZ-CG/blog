@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-/*
+/**
  * @author CG
  * @date 2019/02/23 22:04
  * @discription
@@ -28,10 +28,10 @@ public class UserController {
 
     @RequestMapping("/user/getById")
     @ResponseBody
-    public User getUserById(@RequestParam("id") Integer id) {
+    public ApiResponse<User> getUserById(@RequestParam("id") Integer id) {
 
         //throw new RuntimeException("这是一个异常信息");
-        return userService.getUserById(id);
+        return ApiResponse.success(userService.getUserById(id));
     }
 
 
