@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="headDiv">
+        <header class="am-topbar am-topbar-inverse am-topbar-fixed-top">
+            <div class="am-container">
+                <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse-4">
+                    <ul class="am-nav am-nav-pills am-topbar-nav">
+                        <li><a href="/">首页</a></li>
+                        <li><a th:href="@{/blog/toBlogPage}">文章</a></li>
+                        <li><a th:href="@{/blog/toaboutMe}">关于我</a></li>
+                        <li><a href="/about">留言板</a></li>
+                        <li><a href="/about">支持作者</a></li>
+                        <li><a href="/about">个人日记</a></li>
+                        <li><a href="/about">意见反馈</a></li>
+
+                    </ul>
+                </div>
+            </div>
+        </header>
+            <!--<header id="header">-->
+                <!--<nav>-->
+                    <!--<ul>-->
+                        <!--<li>-->
+                            <!--<a href="/">首页</a>-->
+                            <!--<a th:href="@{/blog/toBlogPage}">文章</a>-->
+                            <!--<a href="/about">关于我</a>-->
+                            <!--<a href="/about">留言板</a>-->
+                            <!--<a href="/about">支持作者</a>-->
+                            <!--<a href="/about">个人日记</a>-->
+                            <!--<a href="/about">意见反馈</a>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</nav>-->
+            <!--</header>-->
+
+
+    </div>
+    <div id="footDiv" style="height: 10%">
+        <footer id="footer">
+            <section id="copyright">
+                <p style="font-size: 20px">
+                    © 2019 <a href="/">CR</a>
+                </p>
+            </section>
+        </footer>
+    </div>
+</body>
+</html>

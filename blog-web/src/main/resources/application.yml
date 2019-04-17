@@ -12,6 +12,13 @@ spring:
   thymeleaf:
     cache: false
     prefix: classpath:/views/
+  mvc:
+    view:
+      prefix: classpath:/views/
+      suffix: .html
+
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+server:
+  port: 8081

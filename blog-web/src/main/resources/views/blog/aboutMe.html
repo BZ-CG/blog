@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/webjars/bootstrap/4.3.1/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/index.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="/assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="/assets/css/app.css">
+
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/assets/js/amazeui.min.js"></script>
+    <style>
+         html,body{
+             height: 100%;
+             width: 100%;
+         }
+
+        .backgroundDiv{
+            border:1px solid #34555f;
+            width: 100%;
+            height: 100%;
+            background: url("/img/aboutMeBackground.jpg") no-repeat gray;
+        }
+        .centerDiv{
+            /*border: 2px solid yellow;*/
+            width: 40%;
+            height: 450px;
+            margin-top: 5%;
+            margin-left: 30%;
+        }
+        .imgDiv{
+            /*border: 2px solid green;*/
+            width: 200px;
+            height: 200px;
+            margin-top: 5%;
+            margin-left: 32%;
+        }
+        .contactWayDiv{
+            /*border: 2px solid black;*/
+            width: 80%;
+            margin-top: 10%;
+            margin-left: 10%;
+        }
+        .csdn{
+            background: url("/img/csdn.jpg") no-repeat #fff;
+        }
+        .contactItem{
+            width: 48px;
+            height: 52px;
+            /*border: 2px solid blue;*/
+            float: left;
+            position: relative;
+            margin: 0px 0px 10px 30px;
+        }
+        .zhanchao{
+            text-align: center;
+            background: transparent;
+            color: white;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+        .weixinImg{
+            width: 150px;
+            height: 150px;
+            /*border: 2px solid pink;*/
+            margin-left: 140px;
+        }
+        </style>
+    <script>
+        $(function () {
+            wechatmouseover();
+            wechatmouseout();
+        });
+        var wechatmouseover = function() {
+            $("#wechatA").mouseover(function() {
+                // alert("ok");
+                $(".weixinImg").css("display","");
+            });
+        }
+        var wechatmouseout = function() {
+            $("#wechatA").mouseout(function() {
+                $(".weixinImg").css("display","none");
+            });
+        }
+    </script>
+</head>
+<body>
+    <div th:replace="/commons/bar::#headDiv"></div>
+    <div class="backgroundDiv">
+        <div class="centerDiv">
+            <div class="imgDiv">
+                <img src="/img/zhangchao.jpg" style="width: 200px;height: 200px;" class="am-circle">
+            </div>
+            <h1 class="zhanchao">张 超</h1>
+
+            <div class="contactWayDiv">
+                <div class="contactItem">
+                    <a href="tencent://Message/?Uin=1245978718&websiteName=www.oicqzone.com&Menu=yes"
+                       class="am-icon-btn am-primary am-icon-qq"></a>
+                </div>
+                <div class="contactItem">
+                    <a href="https://github.com/BZ-CG" class="am-icon-btn am-secondary am-icon-github"></a>
+                </div>
+                <div class="contactItem">
+                    <a href="##" id="wechatA"
+                       class="am-icon-btn am-success am-icon-weixin"></a>
+                </div>
+                <div class="contactItem">
+                    <a href="https://weibo.com/p/1005055722799043/home?from=page_100505&mod=TAB&is_all=1#place"
+                       class="am-icon-btn am-danger am-icon-weibo"></a>
+                </div>
+                <div class="contactItem">
+                    <a href="https://blog.csdn.net/PZHU_CG_CSDN" class="am-icon-btn csdn"></a>
+                </div>
+                <div class="weixinImg" style="display: none;">
+                    <img src="/img/zhangchaoWechat.jpg" height="150px" width="150px">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,112 @@
+*{
+    padding: 0;
+    margin: 0;
+    vertical-align: baseline;
+}
+#bg:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.4);
+    z-index: 1;
+}
+/*给背景图片设置蒙版*/
+/*body {*/
+    /*font: 14px/1.5 微软雅黑, arial, sans-serif;*/
+    /*width: 100%;*/
+    /*overflow: hidden;*/
+/*}*/
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10%;
+    background-color: #333333;
+    color: #fff;
+    z-index: 9999;
+    transition: all .3s;
+}/*设置页眉*/
+#header nav {
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+}
+ul {
+    list-style: none;
+}/*去掉列表样式*/
+#header nav li {
+    border: 0;
+    display: inline-block;
+    height: 66px;
+    line-height: 66px;
+    font-size: 16px;
+    position: relative;
+    cursor: pointer;
+}
+#header nav li a {
+    display: inline-block;
+    padding: 0 12px;
+    white-space: nowrap;
+    color: #fff;
+    text-decoration: none;
+    width:80px;
+    text-align: center;
+}
+
+#header nav li a:hover {
+    background-color: #98b7ff;
+}
+
+a {
+    text-decoration: none;
+}/*去掉链接下划线*/
+#bg {
+    background: url("/img/296494-106.jpg") no-repeat gray;
+    background-size: cover;
+    width: 100%;
+    height: 90%;
+    top: 10%;
+}/*设置背景图片*/
+#bg p {
+    position: relative;
+    padding: 95px 0 70px;
+    color: hsla(0,0%,100%,0.9);
+    text-align: center;
+    font-size: 26px;
+    line-height: 2;
+    z-index: 2;
+    letter-spacing: 2.5px;
+    text-shadow: 0 3px 25px rgba(0,0,0,.3);
+    cursor: progress;
+    padding-top: 210px;
+    padding-right: 0px;
+    padding-bottom: 210px;
+    padding-left: 0px;
+}/*设置文字属性*/
+#bg p i {
+    text-decoration: line-through;
+    font-size: 20px;
+    color: hsla(0,0%,100%,.8);
+    text-shadow: 0 0 0 transparent;
+    font-style: normal;
+}/*设置第二行文字属性*/
+
+#footer {
+    position: fixed;
+    height: 10%;
+    width: 100%;
+    color: hsla(0,0%,100%,.69);
+    background-color: #333;
+    font-size: 8px;
+    text-align: center;
+    transition: height .1s 1s;
+    bottom: 0;
+    z-index:999;
+}
+#container a {
+    color: #333;
+}

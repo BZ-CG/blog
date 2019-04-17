@@ -3,14 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="/webjars/bootstrap/4.3.1/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/index.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="/assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="/assets/css/app.css">
+
     <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
-    <script>
-        $(function () {
-            alert("CG");
-        })
-    </script>
+    <script src="/assets/js/amazeui.min.js"></script>
+    <style>
+        html,body{
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>这是 INDEX 页面。</h1>
+    <div th:replace="commons/bar::#headDiv"></div>
+
+    <div id="bg">
+        <p>
+            和所有以梦为马的诗人一样
+            <br>
+            <i>岁月易逝 一滴不剩</i>
+        </p>
+    </div>
+
+    <div th:replace="commons/bar::#footDiv"></div>
 </body>
 </html>
