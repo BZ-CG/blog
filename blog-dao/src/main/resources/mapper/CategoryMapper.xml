@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.pzhu.blog.dao.category.CategoryDAO">
+    <resultMap id="categoryMap" type="cn.edu.pzhu.blog.dao.category.model.Category">
+        <id column="id" property="id" javaType="INTEGER"/>
+        <result column="user_id" property="userId" javaType="INTEGER"/>
+        <result column="name" property="name" javaType="STRING"/>
+        <result column="style" property="style" javaType="STRING"/>
+    </resultMap>
+    
+    <sql id="base_column_list">
+        id, user_id, name, style, modify_date, create_date
+    </sql>
+
+    <select id="getAllCategoryByUid" resultType="cn.edu.pzhu.blog.dao.category.model.Category" resultMap="categoryMap">
+        SELECT
+        <include refid="base_column_list"/>
+        FROM category
+        WHERE user_id = #{userId, jdbcType=INTEGER}
+    </select>
+
+    <update id="updateCategory" parameterType="cn.edu.pzhu.blog.dao.category.model.Category">
+      UPDATE category
+      <set>
+        <if test="userId != null">
+          user_id = #{userId, jdbcType=INTEGER},
+        </if>
+        <if test="name != null">
+            name = #{name, jdbcType=VARCHAR},
+        </if>
+        <if test="style != null">
+            style = #{style, jdbcType=VARCHAR},
+        </if>
+        <if test="modifyDate != null">
+            modify_date = #{modifyDate, jdbcType=VARCHAR},
+        </if>
+        <if test="createDate != null">
+            create_date = #{createDate, jdbcType=VARCHAR},
+        </if>
+      </set>
+      WHERE id = #{id}
+    </update>
+
+    <insert id="addCategory" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO category(
+        user_id,
+        name,
+        style,
+        modify_date,
+        create_date)
+        VALUES (
+        #{userId, jdbcType=INTEGER},
+        #{name, jdbcType=VARCHAR},
+        #{style, jdbcType=VARCHAR},
+        #{modifyDate, jdbcType=VARCHAR},
+        #{createDate, jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <select id="getCategoryByName" resultType="cn.edu.pzhu.blog.dao.category.model.Category" resultMap="categoryMap">
+        SELECT
+        <include refid="base_column_list"/>
+        FROM category
+        WHERE name = #{name, jdbcType=VARCHAR}
+    </select>
+
+    <select id="getAll" resultType="cn.edu.pzhu.blog.dao.category.model.Category" resultMap="categoryMap">
+        SELECT
+        <include refid="base_column_list"/>
+        FROM category
+    </select>
+
+</mapper>

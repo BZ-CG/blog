@@ -5,10 +5,11 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/blog
+    url: jdbc:mysql://47.107.110.158:3306/blog?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
     username: root
-    password: 123456
+    password: 123qwe==GHJ
     driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
   thymeleaf:
     cache: false
     prefix: classpath:/views/
@@ -22,3 +23,10 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
 server:
   port: 8081
+
+
+qiniu:
+  accessKey: "uC91QV9e-sTqu_mNI2WsWV2B1sFmplool07xUAYa"
+  secretKey: "tqaFZhdhns4mffEqlal8b_XBBq4CvdHat0p5nYwU"
+  bucket: "zhangchao"
+  path: "pq9hn0x7y.bkt.clouddn.com"

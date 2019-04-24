@@ -26,13 +26,9 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUser() {
         List<User> list = Lists.newArrayList();
         User u1 = new User();
-        u1.setAge(22);
-        u1.setAddress("四川巴中");
         u1.setName("张超");
 
         User u2 = new User();
-        u2.setAge(23);
-        u2.setAddress("四川巴中");
         u2.setName("秋蓉");
 
         list.add(u1);
@@ -48,7 +44,7 @@ public class UserServiceImpl implements UserService {
             user = userDAO.getUserById(id);
             log.info("调用 UserDAO 获取 USER 成功，user:{}", JSON.toJSONString(user));
         } catch (Exception e) {
-            log.error("调用 UserDAO 获取 USER 成功", e);
+            log.error("调用 UserDAO 获取 USER 异常", e);
         }
 
         return user;

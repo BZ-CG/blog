@@ -4,13 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.pzhu.blog.dao.user.UserDAO">
     <resultMap id="userMap" type="cn.edu.pzhu.blog.dao.user.model.User">
-        <result column="age" property="age" javaType="INTEGER"/>
+        <id column="id" property="id" javaType="INTEGER"/>
         <result column="name" property="name" javaType="STRING"/>
-        <result column="address" property="address" javaType="STRING"/>
     </resultMap>
 
     <select id="getUserById" resultType="cn.edu.pzhu.blog.dao.user.model.User" resultMap="userMap">
-        SELECT * FROM tb_user WHERE id = #{id}
+        SELECT id, name  FROM user WHERE id = #{id}
     </select>
 
 </mapper>

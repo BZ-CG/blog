@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.pzhu.blog.dao.category.TagDAO">
+    <resultMap id="tagMap" type="cn.edu.pzhu.blog.dao.category.model.Tag">
+        <id column="id" property="id" javaType="INTEGER"/>
+        <result column="u_id" property="uId" javaType="INTEGER"/>
+        <result column="name" property="name" javaType="STRING"/>
+        <result column="style" property="style" javaType="STRING"/>
+        <result column="modify_date" property="modifyDate" javaType="STRING"/>
+        <result column="create_date" property="createDate" javaType="STRING"/>
+    </resultMap>
+    
+    <sql id="base_column_list">
+        id, u_id, name, style, modify_date, create_date
+    </sql>
+
+
+    <insert id="addCategory" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+        INSERT INTO tag(
+            u_id,
+            a_id,
+            name,
+            style,
+            modify_date,
+            create_date)
+        VALUES
+        <foreach collection="tags" item="tag" separator=",">
+            (
+            #{tag.uId, jdbcType=INTEGER},
+            #{tag.aId, jdbcType=INTEGER},
+            #{tag.name, jdbcType=VARCHAR},
+            #{tag.style, jdbcType=VARCHAR},
+            #{tag.modifyDate, jdbcType=VARCHAR}
+            #{tag.createDate, jdbcType=VARCHAR}
+            )
+        </foreach>
+
+    </insert>
+
+    <select id="findTagByName" resultType="cn.edu.pzhu.blog.dao.category.model.Tag" resultMap="tagMap">
+        SELECT
+        <include refid="base_column_list"/>
+        FROM tag
+        WHERE name = #{name, jdbcType=VARCHAR}
+    </select>
+
+    <select id="getTagByAid" resultType="cn.edu.pzhu.blog.dao.category.model.Tag" resultMap="tagMap">
+        SELECT
+        <include refid="base_column_list"/>
+        FROM tag
+        WHERE u_id = #{uId, jdbcType=INTEGER}
+    </select>
+
+</mapper>

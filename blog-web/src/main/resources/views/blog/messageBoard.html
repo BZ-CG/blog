@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/css/index.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="/assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+
+    <style>
+        html, body{
+            width: 100%;
+            /*background-color: #eeeeee;*/
+            background: url("/img/296494-106.jpg") no-repeat;
+        }
+
+        .fatherDiv{
+            width: 80%;
+            margin-left: 10%;
+            height: auto;
+            margin-top: 5%;
+            background-color: #fff;
+        }
+        .fatherDiv p{
+            text-align: center;
+        }
+        .messageArea{
+            width: 50%;
+            background-color: #f2f2f2;
+            margin-bottom: 20px;
+        }
+        .messageDiv{
+            border: 1px solid red;
+            width: 80%;
+            margin-left: 10%;
+            background-color: #fff;
+            margin-top: 10px;
+        }
+        .userName, .textInfo, .dateDiv{
+            padding: 5px 80px;
+        }
+        .userName{
+            color: #01aaed;
+        }
+        .imgDiv{
+            float: left;
+        }
+        .inputDiv{
+            width: 20%;
+        }
+        .inputDiv, .messageArea, .submitBtn{
+            margin-left: 20px;
+        }
+        .submitBtn{
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="/commons/bar::#headDiv"></div>
+    <div class="fatherDiv">
+        <p>写个留言</p>
+        <div class="am-form-group am-form-icon inputDiv">
+            <i class="am-icon-qq"></i>
+            <input type="text" class="am-form-field" placeholder="QQ号码" style="background-color: #f2f2f2;">
+        </div>
+        <textarea class="form-control messageArea" rows="3" placeholder="说点什么吧!"></textarea>
+        <br/>
+        <button type="button" class="am-btn am-btn-success am-round submitBtn">留言</button>
+        <!--<img src="http://q1.qlogo.cn/g?b=qq&nk=1245978718&s=100"/>-->
+    </div>
+    <div class="messageDiv">
+        <p>最新留言</p>
+        <hr/>
+        <div class="message">
+            <div class="imgDiv">
+                <img class="am-circle" src="http://s.amazeui.org/media/i/demos/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80" width="50" height="50"/>
+            </div>
+            <div class="userName">
+                <p>xxxxx</p>
+            </div>
+            <div class="textInfo">
+                这是一条留言信息
+            </div>
+            <div class="dateDiv">
+                2019-01-26 10:26:06
+            </div>
+            <hr/>
+        </div>
+        <div class="message">
+            <div class="imgDiv">
+                <img class="am-circle" src="http://q1.qlogo.cn/g?b=qq&nk=1245978718&s=100" width="50" height="50"/>
+            </div>
+            <div class="userName">
+                <p>张超</p>
+            </div>
+            <div class="textInfo">
+                博主我觉得你很帅.
+            </div>
+            <div class="dateDiv">
+                2019-01-26 10:26:06
+            </div>
+            <hr/>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/css/index.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="/assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+
+    <style>
+        html, body{
+            width: 100%;
+            background-color: #eeeeee;
+        }
+
+        .centenDiv{
+            background-color: #fff;
+            height: 400px;
+            width: 80%;
+            margin-left: 10%;
+            margin-top: 5%;
+            /*border: 1px solid red;*/
+        }
+        .imgDiv{
+            width: 200px;
+            height: 250px;
+            /*border: 1px solid green;*/
+        }
+        .alipay{
+            margin-left: 15%;
+            float: left;
+            position: relative;
+        }
+        .wechat{
+            margin-left: 60%;
+        }
+        .imgDiv h2 {
+            text-align: center;
+            height: 50px;
+            /*border: 1px solid blue;*/
+            margin-bottom: 0px;
+        }
+        .imgDiv img{
+            margin-top: 0%;
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="/commons/bar::#headDiv"></div>
+
+    <section class="am-panel am-panel-success centenDiv">
+        <header class="am-panel-hd">
+            <h3 class="am-panel-title">赞助作者</h3>
+        </header>
+        <div class="am-panel-bd">
+            <p class="bg-info" style="text-align: center;">如果您喜欢我的文章，感觉我的文章对您有帮助，不妨动动您的金手指给予小额赞助，予人玫瑰，手有余香，不胜感激。</p>
+        </div>
+
+        <div class="imgDiv alipay">
+            <h2>支付宝扫一扫</h2>
+            <img src="/img/alipay.jpg"/>
+        </div>
+
+        <div class="imgDiv wechat">
+            <h2>微信扫一扫</h2>
+            <img src="/img/weixinpay.jpg"/>
+        </div>
+    </section>
+    <!-- 来必力City版安装代码 -->
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80Mzc5OC8yMDMzNw==">
+        <script type="text/javascript">
+            (function(d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+
+                if (typeof LivereTower === 'function') { return; }
+
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+    <!-- City版安装代码已完成 -->
+</body>
+</html>

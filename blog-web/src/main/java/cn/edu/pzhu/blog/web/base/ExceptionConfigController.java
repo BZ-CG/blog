@@ -1,5 +1,6 @@
 package cn.edu.pzhu.blog.web.base;
 
+import cn.edu.pzhu.base.exception.BusinessException;
 import cn.edu.pzhu.base.response.ApiResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,7 +18,7 @@ public class ExceptionConfigController {
 
     @ExceptionHandler
     @ResponseBody
-    public ApiResponse exceptionHandler(Exception e) {
+    public ApiResponse exceptionHandler(BusinessException e) {
         return ApiResponse.error(e.getMessage());
     }
 }

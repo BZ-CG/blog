@@ -13,6 +13,26 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/blog")
 public class BlogController {
 
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    public ModelAndView toAdmin() {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("/AdminLTE/starter");
+        return model;
+    }
+
+    @RequestMapping(value = "/toMessageBoard", method = RequestMethod.GET)
+    public ModelAndView toMessageBoard() {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("/blog/messageBoard");
+        return model;
+    }
+
+    @RequestMapping(value = "/toDonationPage", method = RequestMethod.GET)
+    public ModelAndView toDonationPage() {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("/blog/donationPage");
+        return model;
+    }
 
     @RequestMapping(value = "toaboutMe", method = RequestMethod.GET)
     public ModelAndView toAboutMe() {
