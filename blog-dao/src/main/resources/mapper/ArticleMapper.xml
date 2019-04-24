@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.pzhu.blog.dao.article.ArticleDAO">
+    <resultMap id="categoryMap" type="cn.edu.pzhu.blog.dao.article.model.Article">
+        <id column="id" property="id" javaType="INTEGER"/>
+        <result column="u_id" property="uId" javaType="INTEGER"/>
+        <result column="title" property="title" javaType="STRING"/>
+        <result column="content" property="content" javaType="STRING"/>
+        <result column="read_number" property="readNumber" javaType="INTEGER"/>
+        <result column="like_number" property="likeNumber" javaType="INTEGER"/>
+        <result column="image_url" property="imageUrl" javaType="STRING"/>
+        <result column="sys_status" property="sysStatus" javaType="STRING"/>
+        <result column="modify_date" property="modifyDate" javaType="STRING"/>
+        <result column="create_date" property="createDate" javaType="STRING"/>
+    </resultMap>
+    
+    <sql id="base_column_list">
+        id, u_id, title, content, read_number, like_number, image_url, sys_status, modify_date, create_date
+    </sql>
+
+    <insert id="add" parameterType="cn.edu.pzhu.blog.dao.article.model.Article" useGeneratedKeys="true" keyProperty="id">
+        insert into article(u_id, title, content, read_number, like_number, image_url, sys_status, modify_date, create_date)
+        values (
+            #{uId, jdbcType=INTEGER},
+            #{title, jdbcType=VARCHAR},
+            #{content, jdbvType=VARCHAR},
+            #{read_number, jdbcType=INTEGER},
+            #{like_number, jdbcType=INTEGER},
+            #{image_url, jdbcType=VARCHAR},
+            #{sys_status, jdbcType=VARCHAR},
+            #{modify_date, jdbcType=VARCHAR},
+            #{create_date, jdbcType=VARCHAR},
+        )
+    </insert>
+</mapper>

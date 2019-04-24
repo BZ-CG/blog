@@ -130,6 +130,31 @@
           }
         });
       });
+      $("#publishArticleBtn").click(function () {
+        //文章标题
+        var title = $("#titleInput").val();
+        //文章内容
+        var content = editor.txt.html();
+        //标签
+        var tags = $("#tagInput").val();
+        //分类 id 数组
+        var values = [];
+        //筛选出选中的 CheckBox
+        $("input[name='categoryBox']:checked").each(function() {
+          values.push($(this).val());
+        });
+
+        $.ajax({
+            url: "/admin/addArticle",
+            type: "GET",
+            dataType: "JSON",
+            data: {"title":title,"tags":tags, "categoryIds":values, "content":content},
+            traditional: true,
+            success: function(data) {
+              console.log(data);
+            }
+        });
+      });
       // $(".btn").click(function() {
       //   console.log(editor.txt.html());
       //   console.log(editor.txt.text());
@@ -147,7 +172,7 @@
 
             $.each(data.body, function(i, item) {
               var label = $("<label class='checkbox-inline'></label>");
-              var input = $("<input type='checkbox' class='checkboxInput' />").val(item.id);
+              var input = $("<input type='checkbox' class='checkboxInput' name='categoryBox' />").val(item.id);
               var span = $("<span class='fenleiSpan'></span>").append(item.name);
 
               label.append(input).append(span);
@@ -203,9 +228,9 @@
         <form class="form-horizontal">
           <div class="modal-body">
             <div class="form-group">
-              <label for="tag" class="col-sm-2 control-label">标签</label>
+              <label for="tagInput" class="col-sm-2 control-label">标签</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="tag" placeholder="多个标签用逗号分开">
+                <input type="text" class="form-control" id="tagInput" placeholder="多个标签用逗号分开">
               </div>
             </div>
             <div class="form-group">
@@ -223,7 +248,7 @@
         </form>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">保存到草稿箱</button>
-          <button type="button" class="btn btn-primary">发布文章</button>
+          <button type="button" class="btn btn-primary" id="publishArticleBtn">发布文章</button>
         </div>
       </div>
     </div>
@@ -274,8 +299,8 @@
             <form role="form">
               <div class="box-body">
                 <div class="form-group">
-                  <label for="exampleInputEmail1">文章标题</label>
-                  <input type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入文章标题">
+                  <label for="titleInput">文章标题</label>
+                  <input type="text" class="form-control" id="titleInput" placeholder="请输入文章标题">
                 </div>
               </div>
               <!-- /.box-body -->

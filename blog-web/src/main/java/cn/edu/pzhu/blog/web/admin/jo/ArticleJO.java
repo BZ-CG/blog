@@ -1,8 +1,6 @@
-package cn.edu.pzhu.blog.web.admin.dto;
+package cn.edu.pzhu.blog.web.admin.jo;
 
 import lombok.Data;
-
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,8 +9,12 @@ import java.util.List;
  * @date:2019/04/22 8:43
  */
 @Data
-public class ArticleDTO implements Serializable {
-    private static final long serialVersionUID = -2531689347603190655L;
+public class ArticleJO {
+
+    /**
+     * 用户 id.
+     */
+    private Integer uId;
 
     /**
      * 文章标题.
@@ -27,7 +29,7 @@ public class ArticleDTO implements Serializable {
     /**
      * 文章分类 id 集合.
      */
-    private List<Integer>  categoryIds;
+    private List<String>  categoryIds;
 
     /**
      * 文章内容.
