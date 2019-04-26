@@ -25,13 +25,13 @@
         values (
             #{uId, jdbcType=INTEGER},
             #{title, jdbcType=VARCHAR},
-            #{content, jdbvType=VARCHAR},
-            #{read_number, jdbcType=INTEGER},
-            #{like_number, jdbcType=INTEGER},
-            #{image_url, jdbcType=VARCHAR},
-            #{sys_status, jdbcType=VARCHAR},
-            #{modify_date, jdbcType=VARCHAR},
-            #{create_date, jdbcType=VARCHAR},
+            #{content, jdbcType=VARCHAR},
+            #{readNumber, jdbcType=INTEGER},
+            #{likeNumber, jdbcType=INTEGER},
+            #{imageUrl, jdbcType=VARCHAR},
+            #{sysStatus, jdbcType=VARCHAR},
+            #{modifyDate, jdbcType=VARCHAR},
+            #{createDate, jdbcType=VARCHAR}
         )
     </insert>
 </mapper>

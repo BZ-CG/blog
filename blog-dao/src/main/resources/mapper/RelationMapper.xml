@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.pzhu.blog.dao.category.RelationDAO">
+
+    <insert id="batchAddRelation" parameterType="java.util.List">
+        insert into relation(u_id, a_id, item_id, name, iden, modify_date, create_date)
+        values
+        <foreach collection="relations" item="relation" separator=",">
+            (
+              #{relation.uId, jdbcType=INTEGER},
+              #{relation.aId, jdbcType=INTEGER},
+              #{relation.itemId, jdbcType=INTEGER},
+              #{relation.name, jdbcType=VARCHAR},
+              #{relation.iden, jdbcType=INTEGER},
+              #{relation.modifyDate, jdbcType=VARCHAR},
+              #{relation.createDate, jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+</mapper>
