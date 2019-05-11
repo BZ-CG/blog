@@ -10,6 +10,14 @@ import java.util.List;
  * @date:2019/04/21 21:08
  */
 public interface TagService {
+
+    /**
+     * 通过id获取标签信息.
+     * @param id
+     * @return
+     */
+    Tag getById(Integer id);
+
     /**
      * 根据标签名查找.
      * @param name 标签名
@@ -33,8 +41,10 @@ public interface TagService {
 
     /**
      * 新增 tag.
-     * @param tag 带新增的 tag 对象
+     *
+     * @param uId
+     * @param tagName
      * @return 新增后的 id
      */
-    Integer addTag(Tag tag);
+    Integer addTag(Integer uId, String tagName);
 }

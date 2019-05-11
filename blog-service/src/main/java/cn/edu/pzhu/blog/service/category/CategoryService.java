@@ -11,6 +11,13 @@ import java.util.List;
  */
 public interface CategoryService {
     /**
+     * 通过id获取分类信息.
+     * @param id
+     * @return
+     */
+    Category getCategoryById(Integer id);
+
+    /**
      * 获取 user 下所有的分类.
      * @param uId
      * @return 分类列表

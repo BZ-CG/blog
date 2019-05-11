@@ -2,6 +2,7 @@ package cn.edu.pzhu.blog.service.category.impl;
 
 import cn.edu.pzhu.base.common.ErrorCodeConstants;
 import cn.edu.pzhu.base.exception.BusinessException;
+import cn.edu.pzhu.base.util.StyleUtils;
 import cn.edu.pzhu.blog.dao.category.CategoryDAO;
 import cn.edu.pzhu.blog.dao.category.model.Category;
 import cn.edu.pzhu.blog.service.category.CategoryService;
@@ -21,10 +22,21 @@ import java.util.Random;
 @Service
 @Slf4j
 public class CategoryServiceImpl implements CategoryService {
-    private static final String[] STYLES = {"default", "primary", "success", "info", "warning", "danger", "inverse", "purple", "pink"};
 
     @Autowired
     private CategoryDAO categoryDAO;
+
+    @Override
+    public Category getCategoryById(Integer id) {
+        Category category;
+        try {
+            category = categoryDAO.getCategoryById(id);
+        } catch (Exception e) {
+            log.error("调用 categoryDAO.getCategoryById 获取分类信息异常", e);
+            throw buildBusinessException();
+        }
+        return category;
+    }
 
     @Override
     public List<Category> getAllCategoryByUid(Integer uId) {
@@ -69,7 +81,7 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             category.setName(name);
             category.setUserId(userId);
-            category.setStyle(getRandStyle());
+            category.setStyle(StyleUtils.getRandStyleClass());
             category.setCreateDate(getCurrentDateStr());
             category.setModifyDate(getCurrentDateStr());
 
@@ -109,13 +121,4 @@ public class CategoryServiceImpl implements CategoryService {
         return simpleDateFormat.format(new Date());
     }
 
-    /**
-     * 生成一个随机的 style.
-     * @return
-     */
-    public static String getRandStyle() {
-        Random random = new Random();
-        int r = random.nextInt(STYLES.length);
-        return STYLES[r];
-    }
 }

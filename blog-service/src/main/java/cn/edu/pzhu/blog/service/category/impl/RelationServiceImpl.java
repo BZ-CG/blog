@@ -21,7 +21,27 @@ public class RelationServiceImpl implements RelationService {
 
 
     @Override
+    public void deleteByIds(List<Integer> ids) {
+        relationDAO.deleteByIds(ids);
+    }
+
+    @Override
+    public List<Relation> getByItemAndType(Integer itemId, Integer type) {
+        return relationDAO.getByItemAndType(itemId, type);
+    }
+
+    @Override
+    public List<Integer> getAidByCid(Integer uId, Integer id) {
+        return relationDAO.getAidByCid(uId, id);
+    }
+
+    @Override
     public void batchAddRelation(List<Relation> relationList) {
         relationDAO.batchAddRelation(relationList);
+    }
+
+    @Override
+    public List<Relation> getRelationByAid(Integer uId, Integer aId) {
+        return relationDAO.getRelationByAid(uId, aId);
     }
 }
