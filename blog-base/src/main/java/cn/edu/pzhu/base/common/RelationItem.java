@@ -1,6 +1,10 @@
 package cn.edu.pzhu.base.common;
 
+import com.google.common.collect.Lists;
 import lombok.Data;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 关系表meijulei.
@@ -14,6 +18,17 @@ public enum RelationItem {
 
     private Integer code;
     private String name;
+    private static Map<Integer, RelationItem> map = new HashMap();
+
+    static {
+        for (RelationItem item : values()) {
+            map.put(item.getCode(), item);
+        }
+    }
+
+    public static RelationItem getRelationItemByCode(Integer code) {
+        return map.get(code);
+    }
 
     RelationItem(Integer code,  String name) {
         this.code = code;

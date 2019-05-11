@@ -1,6 +1,7 @@
 package cn.edu.pzhu.base.qiniu;
 
 import cn.edu.pzhu.base.exception.BusinessException;
+import cn.edu.pzhu.base.util.base64.Base64FileUtils;
 import com.google.gson.Gson;
 import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;
@@ -12,8 +13,11 @@ import com.qiniu.util.Auth;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URLEncoder;
 
 /**
@@ -32,6 +36,50 @@ public class QiniuUtils {
     @Value("${qiniu.path}")
     private String path;
 
+
+    /**
+     * 上传文件到七牛云，参数为 base64 编码.
+     * @param base64
+     * @param name
+     * @return
+     */
+    public String uploadBase64(String base64, String name) {
+        try {
+            MultipartFile file = Base64FileUtils.base64ToMultipart(base64);
+            return uploadMultipartFile(file, name);
+        } catch (Exception e) {
+            log.error("调用QiniuUtils.uploadBase64 上传图片到七牛云异常", e);
+            throw new BusinessException("1111","调用 QiniuUtils.uploadBase64 上传图片到七牛云异常", e);
+        }
+    }
+
+    /**
+     * 上传文件到七牛云，参数为 MultipartFile
+     * @param file
+     * @param name
+     * @return
+     */
+    public String uploadMultipartFile(MultipartFile file, String name) {
+        File tempFile = null;
+        String url;
+        try {
+            tempFile = File.createTempFile("temp", null);
+            file.transferTo(tempFile);
+            FileInputStream fileInputStream = new FileInputStream(tempFile);
+            url = uploadToken(fileInputStream, name);
+        } catch (Exception e) {
+            log.error("调用 QiniuUtils.uploadMultipartFile 上传图片到七牛云异常", e);
+            throw new BusinessException("1111","调用 QiniuUtils.uploadMultipartFile 上传图片到七牛云异常", e);
+        }
+        return url;
+    }
+
+    /**
+     * 根据 FileInputStream 上传文件.
+     * @param file
+     * @param key
+     * @return
+     */
     public String uploadToken(FileInputStream file, String key) {
         //Zone.zone0() 表示华北区域
         Configuration cfg = new Configuration(Zone.zone0());
@@ -56,8 +104,8 @@ public class QiniuUtils {
                 throw new BusinessException("1111","使用七牛云上传图片失败", ex);
             }
         } catch (Exception e) {
-            log.error("使用七牛云上传图片异常", e);
-            throw new BusinessException("1111","使用七牛云上传图片异常", e);
+            log.error("调用 QiniuUtils.uploadToken 上传图片到七牛云异常", e);
+            throw new BusinessException("1111","调用 QiniuUtils.uploadToken 上传图片到七牛云异常", e);
         }
     }
 }
