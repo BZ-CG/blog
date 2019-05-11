@@ -13,6 +13,14 @@ import java.util.List;
 @Repository
 public interface CategoryDAO {
 
+
+    /**
+     * 通过id获取分类信息.
+     * @param id
+     * @return
+     */
+    Category getCategoryById(Integer id);
+
     /**
      * 获取 user 下所有的分类.
      * @param uId

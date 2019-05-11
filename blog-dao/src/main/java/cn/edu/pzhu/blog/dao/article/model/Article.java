@@ -2,6 +2,8 @@ package cn.edu.pzhu.blog.dao.article.model;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * 文章 model.
  * @author:CG
@@ -17,6 +19,6 @@ public class Article {
     private Integer likeNumber;
     private String imageUrl;
     private String sysStatus;
-    private String modifyDate;
-    private String createDate;
+    private Date modifyDate;
+    private Date createDate;
 }

@@ -16,28 +16,39 @@
         id, u_id, name, style, modify_date, create_date
     </sql>
 
+    <select id="getById" resultType="cn.edu.pzhu.blog.dao.category.model.Tag" resultMap="tagMap">
+        SELECT
+        <include refid="base_column_list"/>
+        FROM tag
+        WHERE id = #{id, jdbcType=INTEGER}
+    </select>
 
-    <insert id="addCategory" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+    <delete id="deleteTag">
+        delete
+        from tag
+        where
+        id = #{id,jdbcType=INTEGER}
+
+    </delete>
+
+    <insert id="addTag" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO tag(
             u_id,
-            a_id,
             name,
             style,
             modify_date,
             create_date)
         VALUES
-        <foreach collection="tags" item="tag" separator=",">
             (
-            #{tag.uId, jdbcType=INTEGER},
-            #{tag.aId, jdbcType=INTEGER},
-            #{tag.name, jdbcType=VARCHAR},
-            #{tag.style, jdbcType=VARCHAR},
-            #{tag.modifyDate, jdbcType=VARCHAR}
-            #{tag.createDate, jdbcType=VARCHAR}
+            #{uId, jdbcType=INTEGER},
+            #{name, jdbcType=VARCHAR},
+            #{style, jdbcType=VARCHAR},
+            #{modifyDate, jdbcType=VARCHAR},
+            #{createDate, jdbcType=VARCHAR}
             )
-        </foreach>
 
     </insert>
+
 
     <select id="findTagByName" resultType="cn.edu.pzhu.blog.dao.category.model.Tag" resultMap="tagMap">
         SELECT

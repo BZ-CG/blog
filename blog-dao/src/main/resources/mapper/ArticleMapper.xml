@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.pzhu.blog.dao.article.ArticleDAO">
-    <resultMap id="categoryMap" type="cn.edu.pzhu.blog.dao.article.model.Article">
+    <resultMap id="BaseMap" type="cn.edu.pzhu.blog.dao.article.model.Article">
         <id column="id" property="id" javaType="INTEGER"/>
         <result column="u_id" property="uId" javaType="INTEGER"/>
         <result column="title" property="title" javaType="STRING"/>
@@ -12,13 +12,80 @@
         <result column="like_number" property="likeNumber" javaType="INTEGER"/>
         <result column="image_url" property="imageUrl" javaType="STRING"/>
         <result column="sys_status" property="sysStatus" javaType="STRING"/>
-        <result column="modify_date" property="modifyDate" javaType="STRING"/>
-        <result column="create_date" property="createDate" javaType="STRING"/>
+        <result column="modify_date" property="modifyDate" javaType="DATE"/>
+        <result column="create_date" property="createDate" javaType="DATE"/>
     </resultMap>
     
     <sql id="base_column_list">
         id, u_id, title, content, read_number, like_number, image_url, sys_status, modify_date, create_date
     </sql>
+
+    <update id="updateById">
+        update article
+        <trim prefix="set" suffixOverrides=",">
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="imageUrl != null and imageUrl != ''">image_url = #{imageUrl},</if>
+            <if test="modifyDate != null">modify_date = #{modifyDate},</if>
+        </trim>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteById">
+        delete from article
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <select id="getSlidesImageUrl" resultMap="BaseMap">
+        select
+        <include refid="base_column_list"/>
+        from article
+        order by create_date DESC
+        limit #{number,jdbcType=INTEGER}
+    </select>
+
+    <update id="addReadNumber">
+        update article set read_number = read_number + 1
+        where id = #{aId,jdbcType=INTEGER}
+        and u_id = #{uId,jdbcType=INTEGER}
+    </update>
+
+
+    <select id="getArticleByIds" resultMap="BaseMap">
+        select
+        <include refid="base_column_list"/>
+        from article
+        where u_id = #{uId,jdbcType=INTEGER}
+        and id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="getById" resultMap="BaseMap">
+        select
+        <include refid="base_column_list"/>
+        from article
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+
+    <select id="getArticleList" resultMap="BaseMap">
+        select
+        <include refid="base_column_list"/>
+        from article
+        where u_id = #{uId,jdbcType=INTEGER}
+        order by create_date DESC
+    </select>
+
+    <select id="getList" resultMap="BaseMap">
+        SELECT
+        <include refid="base_column_list" />
+        FROM article
+        WHERE u_id = #{uId,jdbcType=INTEGER}
+        ORDER BY read_number DESC
+        LIMIT #{limitNumber,jdbcType=INTEGER}
+    </select>
 
     <insert id="add" parameterType="cn.edu.pzhu.blog.dao.article.model.Article" useGeneratedKeys="true" keyProperty="id">
         insert into article(u_id, title, content, read_number, like_number, image_url, sys_status, modify_date, create_date)
@@ -30,8 +97,8 @@
             #{likeNumber, jdbcType=INTEGER},
             #{imageUrl, jdbcType=VARCHAR},
             #{sysStatus, jdbcType=VARCHAR},
-            #{modifyDate, jdbcType=VARCHAR},
-            #{createDate, jdbcType=VARCHAR}
+            #{modifyDate, jdbcType=TIMESTAMP},
+            #{createDate, jdbcType=TIMESTAMP}
         )
     </insert>
 </mapper>

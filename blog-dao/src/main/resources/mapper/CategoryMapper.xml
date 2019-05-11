@@ -14,6 +14,13 @@
         id, user_id, name, style, modify_date, create_date
     </sql>
 
+    <select id="getCategoryById" resultType="cn.edu.pzhu.blog.dao.category.model.Category" resultMap="categoryMap">
+        SELECT
+        <include refid="base_column_list"/>
+        FROM category
+        WHERE id = #{id, jdbcType=INTEGER}
+    </select>
+
     <select id="getAllCategoryByUid" resultType="cn.edu.pzhu.blog.dao.category.model.Category" resultMap="categoryMap">
         SELECT
         <include refid="base_column_list"/>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.pzhu.blog.dao.link.FriendLinkDAO">
+    <resultMap id="BaseMap" type="cn.edu.pzhu.blog.dao.link.model.FriendLink">
+        <id column="id" property="id" javaType="INTEGER"/>
+        <result column="uId" property="uId" javaType="INTEGER"/>
+        <result column="content" property="content" javaType="STRING"/>
+        <result column="image_url" property="imageUrl" javaType="STRING"/>
+        <result column="link_url" property="linkUrl" javaType="STRING"/>
+        <result column="name" property="name" javaType="STRING"/>
+        <result column="modify_date" property="modifyDate" javaType="STRING"/>
+        <result column="create_date" property="createDate" javaType="STRING"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        id, u_id, content, image_url,link_url, name, modify_date, create_date
+    </sql>
+
+    <select id="queryFriendLink" resultMap="BaseMap">
+        select
+        <include refid="base_column_list"/>
+        from friend_link
+        where u_id = #{uId,jdbcType=INTEGER}
+    </select>
+</mapper>

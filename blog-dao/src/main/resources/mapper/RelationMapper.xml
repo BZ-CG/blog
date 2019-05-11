@@ -4,6 +4,53 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.pzhu.blog.dao.category.RelationDAO">
 
+    <resultMap id="Base_resultMap" type="cn.edu.pzhu.blog.dao.category.model.Relation">
+        <id column="id" property="id" javaType="INTEGER"></id>
+        <result column="u_id" property="uId" javaType="INTEGER"></result>
+        <result column="a_id" property="aId" javaType="INTEGER"></result>
+        <result column="item_id" property="itemId" javaType="INTEGER"></result>
+        <result column="name" property="name" javaType="STRING"></result>
+        <result column="iden" property="iden" javaType="INTEGER"></result>
+        <result column="modify_date" property="modifyDate" javaType="STRING"></result>
+        <result column="create_date" property="createDate" javaType="STRING"></result>
+    </resultMap>
+
+    <sql id="Base_column">
+        id, u_id, a_id, item_id, name, iden, modify_date, create_date
+    </sql>
+
+    <delete id="deleteByIds" parameterType="java.util.List">
+        delete from relation
+        where id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getByItemAndType" resultMap="Base_resultMap">
+        select
+        <include refid="Base_column"/>
+        from relation
+        where item_id = #{itemId,jdbcType=INTEGER}
+        and iden = #{type,jdbcType=INTEGER}
+
+    </select>
+
+    <select id="getAidByCid" resultType="java.lang.Integer">
+        SELECT a_id FROM relation
+        WHERE iden = '1'
+        AND item_id = #{cId,jdbcType=INTEGER}
+        AND u_id = #{uId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getRelationByAid" resultMap="Base_resultMap" resultType="cn.edu.pzhu.blog.dao.category.model.Relation">
+        SELECT
+        <include refid="Base_column"/>
+        FROM relation
+        WHERE u_id = #{uId,jdbcType=INTEGER}
+        AND a_id = #{aId,jdbcType=INTEGER}
+    </select>
+
     <insert id="batchAddRelation" parameterType="java.util.List">
         insert into relation(u_id, a_id, item_id, name, iden, modify_date, create_date)
         values

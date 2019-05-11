@@ -14,6 +14,13 @@ import java.util.List;
 public interface TagDAO {
 
     /**
+     * 通过id获取标签信息.
+     * @param id
+     * @return
+     */
+    Tag getById(Integer id);
+
+    /**
      * 根据标签名查找.
      * @param name 标签名
      * @return 标签对象

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.pzhu.blog.dao.message.MessageDAO">
+    <resultMap id="BaseMap" type="cn.edu.pzhu.blog.dao.message.model.Message">
+        <id column="id" property="id" javaType="INTEGER"/>
+        <result column="u_Id" property="uId" javaType="INTEGER"/>
+        <result column="content" property="content" javaType="STRING"/>
+        <result column="write_time" property="writeTime" javaType="DATE"/>
+        <result column="position" property="position" javaType="STRING"/>
+        <result column="qq_number" property="qqNumber" javaType="STRING"/>
+        <result column="qq_image" property="qqImage" javaType="STRING"/>
+        <result column="qq_name" property="qqName" javaType="STRING"/>
+        <result column="modify_date" property="modifyDate" javaType="STRING"/>
+        <result column="create_date" property="createDate" javaType="STRING"/>
+    </resultMap>
+
+    <sql id="Base_Column">
+        id, u_id, content, write_time, position, qq_number, qq_image, qq_name, modify_date, create_date
+    </sql>
+
+    <insert id="add" parameterType="cn.edu.pzhu.blog.dao.message.model.Message">
+        insert into message(u_id, content, write_time, position, qq_number, qq_image, qq_name, modify_date, create_date)
+        values(
+          #{uId,jdbcType=INTEGER},
+          #{content,jdbcType=VARCHAR},
+          #{writeTime,jdbcType=TIMESTAMP},
+          #{position,jdbcType=VARCHAR},
+          #{qqNumber,jdbcType=VARCHAR},
+          #{qqImage,jdbcType=VARCHAR},
+          #{qqName,jdbcType=VARCHAR},
+          #{modifyDate,jdbcType=VARCHAR},
+          #{createDate,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <select id="queryMessage" resultMap="BaseMap">
+        select
+        <include refid="Base_Column"/>
+        from message
+        where u_id = #{uId,jdbcType=INTEGER}
+        order by write_time DESC
+    </select>
+
+</mapper>
