@@ -21,6 +21,11 @@ public class RelationServiceImpl implements RelationService {
 
 
     @Override
+    public void deleteByItemId(Integer uId, Integer itemId, Integer iden) {
+        relationDAO.deleteByItemId(uId, itemId, iden);
+    }
+
+    @Override
     public void deleteByIds(List<Integer> ids) {
         relationDAO.deleteByIds(ids);
     }

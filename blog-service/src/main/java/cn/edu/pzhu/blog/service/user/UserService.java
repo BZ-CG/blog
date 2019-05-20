@@ -11,6 +11,13 @@ import java.util.List;
  */
 public interface UserService {
 
+    /**
+     * 通过名字获取 user 信息.
+     * @param name
+     * @return
+     */
+    User getByName(String name);
+
     List<User> getAllUser();
     User getUserById(Integer id);
 }

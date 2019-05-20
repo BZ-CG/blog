@@ -43,6 +43,12 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ArticleServiceImpl implements ArticleService {
 
+
+    private static final String[] DEFAULT_ARTICLE_IMG = {
+            "1.jpg","2.jpg","3.jpg","4.jpg","5.jpg",
+            "6.jpg","7.jpg","8.jpg","9.jpg","10.jpg"
+    };
+
     @Autowired
     private ArticleDAO articleDAO;
 
@@ -59,6 +65,16 @@ public class ArticleServiceImpl implements ArticleService {
     private TagService tagService;
 
 
+
+    @Override
+    public Integer getCount(Integer uId) {
+        try {
+            return articleDAO.getCount(uId);
+        } catch (Exception e) {
+            log.error("调用 articleDAO.getCount 获取文章数量.", e);
+            throw ExceptionUtils.buildBusinessException();
+        }
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -172,7 +188,11 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Article> getArticleByIds(Integer uId, List<Integer> ids) {
         List<Article> articleList;
         try {
-            articleList = articleDAO.getArticleByIds(uId, ids);
+            if (CollectionUtils.isEmpty(ids)) {
+                articleList = Lists.newArrayList();
+            } else {
+                articleList = articleDAO.getArticleByIds(uId, ids);
+            }
         } catch (Exception e) {
             log.error("调用 articleDAO.getArticleByIds 获取文章信息异常", e);
             throw ExceptionUtils.buildBusinessException();
@@ -198,7 +218,7 @@ public class ArticleServiceImpl implements ArticleService {
     public void addCategory(ArticleDTO articleDTO) {
         //1. 新增文章
         Article article = ArticleConverter.toArticle(articleDTO);
-        String url = uploadImgToQiNiu(articleDTO);
+        String url = getArticleImgUrl(articleDTO);
         article.setImageUrl(url);
 
         articleDAO.add(article);
@@ -207,28 +227,26 @@ public class ArticleServiceImpl implements ArticleService {
         relationService.batchAddRelation(createCategoryRelationList(articleDTO, article.getId(), RelationItem.CATEGORY));
     }
 
+    /**
+     * 当发表博客，未选择略缩图时，随机选择一张图片作为略缩图。
+     * @param articleDTO
+     * @return
+     */
+    public String getArticleImgUrl(ArticleDTO articleDTO) {
+        if (StringUtils.isNotEmpty(articleDTO.getImageStr())) {
+            return uploadImgToQiNiu(articleDTO);
+        } else {
+            String prefix = "/img/articleDefaultImg/";
+            int random = (int) ((Math.random()) * (DEFAULT_ARTICLE_IMG.length - 1));
+            return prefix + DEFAULT_ARTICLE_IMG[random];
+        }
+    }
+
+
     private String uploadImgToQiNiu(ArticleDTO articleDTO) {
         String fileName = articleDTO.getTitle() + System.currentTimeMillis();
 
         return qiniuUtils.uploadBase64(articleDTO.getImageStr(), fileName);
-        //String imgUrl = null;
-        //File tempFile = null;
-        //try {
-        //    MultipartFile file = Base64FileUtils.base64ToMultipart(articleDTO.getImageStr());
-        //    String fileName = articleDTO.getTitle() + System.currentTimeMillis();
-        //
-        //    tempFile = File.createTempFile("temp", null);
-        //    file.transferTo(tempFile);
-        //
-        //    FileInputStream fileInputStream = new FileInputStream(tempFile);
-        //    imgUrl = qiniuUtils.uploadToken(fileInputStream, fileName);
-        //} catch (Exception e) {
-        //    log.error("上传略缩图到七牛云失败.", e);
-        //    ExceptionUtils.buildBusinessException();
-        //} finally {
-        //    tempFile.deleteOnExit();
-        //}
-        //return imgUrl;
     }
 
     @Override

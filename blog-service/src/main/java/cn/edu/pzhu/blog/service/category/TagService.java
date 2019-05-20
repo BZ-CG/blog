@@ -12,6 +12,13 @@ import java.util.List;
 public interface TagService {
 
     /**
+     * 获取标签数量.
+     * @param uId
+     * @return
+     */
+    Integer getCount(Integer uId);
+
+    /**
      * 通过id获取标签信息.
      * @param id
      * @return
@@ -34,10 +41,18 @@ public interface TagService {
     List<Tag> getTagByAid(Integer uId, Integer aId);
 
     /**
-     * 根据 id 删除标签.
-     * @param id 标签 id
+     * 根据 id 删除标签(用户发表文章时删除标签).
+     * @param uId
+     * @param id
      */
-    void deleteTag(Integer id);
+    void deleteTag(Integer uId, Integer id);
+
+    /**
+     * 根据 id 删除(用于标签管理界面)
+     * @param uId
+     * @param id
+     */
+    void deleteById(Integer uId, Integer id);
 
     /**
      * 新增 tag.

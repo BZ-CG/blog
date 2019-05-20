@@ -13,6 +13,8 @@ public class ArticleJO extends Article {
 
     private String categoryName;
 
+    private Integer categoryId;
+
     private Integer pages;
 
 }

@@ -13,6 +13,14 @@ public interface RelationService {
 
 
     /**
+     * 根据 itemId 删除关系.
+     * @param uId
+     * @param itemId
+     * @param iden
+     */
+    void deleteByItemId(Integer uId, Integer itemId, Integer iden);
+
+    /**
      * 根据 id 批量删除.
      * @param ids
      */

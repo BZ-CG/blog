@@ -1,9 +1,4 @@
 package cn.edu.pzhu.blog.service.user.impl;
-/*
- * @author CG
- * @date 2019/02/23 21:20
- * @discription
- */
 
 import cn.edu.pzhu.blog.dao.user.UserDAO;
 import cn.edu.pzhu.blog.dao.user.model.User;
@@ -15,12 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+/**
+ * @author CG-PC
+ */
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDAO userDAO;
+
+    @Override
+    public User getByName(String name) {
+        return userDAO.getByName(name);
+    }
 
     @Override
     public List<User> getAllUser() {

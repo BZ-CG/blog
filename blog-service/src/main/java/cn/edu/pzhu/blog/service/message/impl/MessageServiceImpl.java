@@ -22,6 +22,26 @@ public class MessageServiceImpl implements MessageService {
     private MessageDAO messageDAO;
 
     @Override
+    public Integer getCount(Integer uId) {
+        try {
+            return messageDAO.getCount(uId);
+        } catch (Exception e) {
+            log.error("调用 messageDAO.getCount 获取留言数量异常.", e);
+            throw ExceptionUtils.buildBusinessException();
+        }
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        try {
+            messageDAO.deleteById(id);
+        } catch (Exception e) {
+            log.error("调用 messageDAO.delete 删除留言信息失败.", e);
+            throw ExceptionUtils.buildBusinessException();
+        }
+    }
+
+    @Override
     public void add(Message message) {
         try {
              messageDAO.add(message);

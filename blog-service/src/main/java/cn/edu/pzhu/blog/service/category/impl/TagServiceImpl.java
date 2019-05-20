@@ -34,6 +34,16 @@ public class TagServiceImpl implements TagService {
     private RelationService relationService;
 
     @Override
+    public Integer getCount(Integer uId) {
+        try {
+            return tagDAO.getCount(uId);
+        } catch (Exception e) {
+            log.error("调用 tagDAO.getCount 获取标签数量失败.", e);
+            throw ExceptionUtils.buildBusinessException();
+        }
+    }
+
+    @Override
     public Tag getById(Integer id) {
         Tag tag;
         try {
@@ -71,7 +81,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteTag(Integer id) {
+    public void deleteTag(Integer uId, Integer id) {
         try {
             List<Relation> relations = relationService.getByItemAndType(id, RelationItem.TAG.getCode());
             List<Integer> relationIds = relations.stream().map(Relation::getId).collect(Collectors.toList());
@@ -82,6 +92,18 @@ public class TagServiceImpl implements TagService {
             tagDAO.deleteTag(id);
         } catch (Exception e) {
             log.error("调用 tagDAO.deleteTag 删除标签信息失败.", e);
+            throw ExceptionUtils.buildBusinessException();
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteById(Integer uId, Integer id) {
+        try {
+            relationService.deleteByItemId(uId, id, RelationItem.TAG.getCode());
+            tagDAO.deleteById(uId, id);
+        } catch (Exception e) {
+            log.error("调用 tagService.deleteById 删除标签信息失败.", e);
             throw ExceptionUtils.buildBusinessException();
         }
     }

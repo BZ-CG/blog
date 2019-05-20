@@ -1,19 +1,22 @@
 package cn.edu.pzhu.blog.service.category.impl;
 
 import cn.edu.pzhu.base.common.ErrorCodeConstants;
+import cn.edu.pzhu.base.common.RelationItem;
 import cn.edu.pzhu.base.exception.BusinessException;
+import cn.edu.pzhu.base.util.ExceptionUtils;
 import cn.edu.pzhu.base.util.StyleUtils;
 import cn.edu.pzhu.blog.dao.category.CategoryDAO;
 import cn.edu.pzhu.blog.dao.category.model.Category;
 import cn.edu.pzhu.blog.service.category.CategoryService;
+import cn.edu.pzhu.blog.service.category.RelationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 /**
  * @author:CG
@@ -25,6 +28,31 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryDAO categoryDAO;
+
+    @Autowired
+    private RelationService relationService;
+
+    @Override
+    public Integer getCount(Integer uId) {
+        try {
+            return categoryDAO.getCount(uId);
+        } catch (Exception e) {
+            log.error("调用 categoryDAO.getCount 获取分类数量异常", e);
+            throw ExceptionUtils.buildBusinessException();
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteById(Integer uId, Integer id) {
+        try {
+            relationService.deleteByItemId(uId, id, RelationItem.CATEGORY.getCode());
+            categoryDAO.deleteById(id);
+        } catch (Exception e) {
+            log.error("调用 CategoryService.deleteById 删除分类异常", e);
+            throw buildBusinessException();
+        }
+    }
 
     @Override
     public Category getCategoryById(Integer id) {
@@ -63,10 +91,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getCategoryByName(String name) {
+    public Category getCategoryByName(Integer uId, String name) {
         Category category;
         try {
-            category = categoryDAO.getCategoryByName(name);
+            category = categoryDAO.getCategoryByName(uId, name);
         } catch (Exception e) {
             log.error("调用 categoryDAO.getCategoryByName 获取分类信息异常", e);
             throw buildBusinessException();

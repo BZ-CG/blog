@@ -17,6 +17,13 @@ public interface ArticleService {
 
 
     /**
+     * 获取文章数量.
+     * @param uId
+     * @return
+     */
+    Integer getCount(Integer uId);
+
+    /**
      * 修改文章内容.
      * @param articleDTO
      */
