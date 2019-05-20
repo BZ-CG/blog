@@ -2,6 +2,7 @@ package cn.edu.pzhu.base.util;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.InetAddress;
 
 /**
  * @author:CG
@@ -44,6 +45,16 @@ public class IPUtils {
                     break;
                 }
             }
+        }
+        //根据网卡获取本机真实的 IP
+        if ("127.0.0.1".equals(ip)) {
+            InetAddress inetAddress = null;
+            try {
+                inetAddress = InetAddress.getLocalHost();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ip = inetAddress.getHostAddress();
         }
         return ip;
     }

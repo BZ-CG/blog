@@ -11,4 +11,6 @@ public class CommonCodeConstants {
     public final static String FAIL_CODE = "0002";
     public final static String FAIL_MSG = "失败";
 
+    public final static String USER = "session_user";
+
 }

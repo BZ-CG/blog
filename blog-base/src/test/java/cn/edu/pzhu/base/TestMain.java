@@ -2,10 +2,14 @@ package cn.edu.pzhu.base;
 
 import cn.edu.pzhu.base.util.AddressUtils;
 import cn.edu.pzhu.base.util.HttpClientUtils;
+import cn.edu.pzhu.base.util.RedisUtils;
+import javafx.application.Application;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
@@ -15,7 +19,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TestMain {
-
 
     @Test
     public void testHttpClient() {
