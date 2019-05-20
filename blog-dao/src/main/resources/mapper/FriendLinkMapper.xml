@@ -10,18 +10,63 @@
         <result column="image_url" property="imageUrl" javaType="STRING"/>
         <result column="link_url" property="linkUrl" javaType="STRING"/>
         <result column="name" property="name" javaType="STRING"/>
-        <result column="modify_date" property="modifyDate" javaType="STRING"/>
-        <result column="create_date" property="createDate" javaType="STRING"/>
+        <result column="modify_date" property="modifyDate" javaType="DATE"/>
+        <result column="create_date" property="createDate" javaType="DATE"/>
     </resultMap>
 
     <sql id="base_column_list">
         id, u_id, content, image_url,link_url, name, modify_date, create_date
     </sql>
 
+    <insert id="add">
+        insert into friend_link(u_id, content, image_url,link_url, name, modify_date, create_date)
+        values (
+            #{uId,jdbcType=INTEGER},
+            #{content,jdbcType=VARCHAR},
+            #{imageUrl,jdbcType=VARCHAR},
+            #{linkUrl,jdbcType=VARCHAR},
+            #{name,jdbcType=VARCHAR},
+            #{modifyDate,jdbcType=TIMESTAMP},
+            #{createDate,jdbcType=TIMESTAMP}
+        )
+
+    </insert>
+
+    <delete id="deleteById">
+        delete from friend_link
+        where id = #{id, jdbcType=INTEGER}
+    </delete>
+
+    <update id="updateById">
+        update friend_link
+        <trim prefix="set" suffixOverrides=",">
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="imageUrl != null and imageUrl != ''">
+                image_url = #{imageUrl},
+            </if>
+            <if test="linkUrl != null and linkUrl != ''">
+                link_url = #{linkUrl},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="modifyDate != null">
+                modify_date = #{modifyDate},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate},
+            </if>
+        </trim>
+        where id = #{id, jdbcType=INTEGER}
+    </update>
+
     <select id="queryFriendLink" resultMap="BaseMap">
         select
         <include refid="base_column_list"/>
         from friend_link
         where u_id = #{uId,jdbcType=INTEGER}
+        order by create_date DESC
     </select>
 </mapper>

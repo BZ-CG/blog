@@ -14,6 +14,17 @@
         id, user_id, name, style, modify_date, create_date
     </sql>
 
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(*)
+        from category
+        where user_id = #{uId,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteById">
+       delete from category
+       where id = #{id,jdbcType=INTEGER}
+    </delete>
+
     <select id="getCategoryById" resultType="cn.edu.pzhu.blog.dao.category.model.Category" resultMap="categoryMap">
         SELECT
         <include refid="base_column_list"/>
@@ -71,6 +82,7 @@
         <include refid="base_column_list"/>
         FROM category
         WHERE name = #{name, jdbcType=VARCHAR}
+        and user_id = #{uId,jdbcType=INTEGER}
     </select>
 
     <select id="getAll" resultType="cn.edu.pzhu.blog.dao.category.model.Category" resultMap="categoryMap">

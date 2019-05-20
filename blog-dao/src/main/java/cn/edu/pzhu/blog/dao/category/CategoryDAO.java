@@ -13,6 +13,18 @@ import java.util.List;
 @Repository
 public interface CategoryDAO {
 
+    /**
+     * 获取分类章数量.
+     * @param uId
+     * @return
+     */
+    Integer getCount(Integer uId);
+
+    /**
+     * 根据 id 删除.
+     * @param id
+     */
+    void deleteById(Integer id);
 
     /**
      * 通过id获取分类信息.
@@ -36,10 +48,12 @@ public interface CategoryDAO {
 
     /**
      * 根据分类名查询.
+     *
+     * @param uId
      * @param name 分类名
      * @return 分类
      */
-    Category getCategoryByName(String name);
+    Category getCategoryByName(Integer uId, String name);
 
     /**
      * 新增一个分组信息.

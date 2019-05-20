@@ -12,6 +12,23 @@ import java.util.List;
 @Component
 public interface FriendLinkDAO {
 
+    /**
+     * 新增友链.
+     * @param friendLink
+     */
+    void add(FriendLink friendLink);
+
+    /**
+     * 通过 id 删除.
+     * @param id
+     */
+    void deleteById(Integer id);
+
+    /**
+     * 通过 id 修改.
+     * @param friendLink
+     */
+    void updateById(FriendLink friendLink);
 
     /**
      * 获取友链列表.

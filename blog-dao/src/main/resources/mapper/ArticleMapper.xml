@@ -20,6 +20,12 @@
         id, u_id, title, content, read_number, like_number, image_url, sys_status, modify_date, create_date
     </sql>
 
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(*)
+        from article
+        where u_id = #{uId,jdbcType=INTEGER}
+    </select>
+
     <update id="updateById">
         update article
         <trim prefix="set" suffixOverrides=",">

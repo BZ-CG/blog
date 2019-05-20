@@ -16,6 +16,18 @@
         id, u_id, name, style, modify_date, create_date
     </sql>
 
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(*)
+        from tag
+        where u_id = #{uId,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteById">
+        delete from tag
+        where id = #{id,jdbcType=INTEGER}
+        and u_id = #{uId,jdbcType=INTEGER}
+    </delete>
+
     <select id="getById" resultType="cn.edu.pzhu.blog.dao.category.model.Tag" resultMap="tagMap">
         SELECT
         <include refid="base_column_list"/>

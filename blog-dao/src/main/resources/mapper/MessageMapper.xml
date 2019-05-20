@@ -20,6 +20,18 @@
         id, u_id, content, write_time, position, qq_number, qq_image, qq_name, modify_date, create_date
     </sql>
 
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(*)
+        from message
+        where u_id = #{uId,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteById">
+        delete from message
+        where id = #{id,jdbcType=INTEGER}
+
+    </delete>
+
     <insert id="add" parameterType="cn.edu.pzhu.blog.dao.message.model.Message">
         insert into message(u_id, content, write_time, position, qq_number, qq_image, qq_name, modify_date, create_date)
         values(

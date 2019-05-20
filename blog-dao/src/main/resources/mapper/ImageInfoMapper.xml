@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.pzhu.blog.dao.image.ImageInfoDAO">
+    <resultMap id="BaseMap" type="cn.edu.pzhu.blog.dao.image.model.ImageInfo">
+        <id column="id" property="id" javaType="INTEGER"/>
+        <result column="u_id" property="uId" javaType="INTEGER"/>
+        <result column="url" property="url" javaType="STRING"/>
+        <result column="code" property="code" javaType="INTEGER"/>
+        <result column="title" property="title" javaType="STRING"/>
+        <result column="create_date" property="createDate" javaType="DATE"/>
+        <result column="modify_date" property="modifyDate" javaType="DATE"/>
+    </resultMap>
+
+    <sql id="BaseSql">
+        id, u_id, url, code, title, modify_date, create_date
+    </sql>
+
+    <update id="updateUrlById">
+        update image_info
+        set url = #{url,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="getByCode" resultMap="BaseMap">
+        select
+        <include refid="BaseSql"/>
+        from image_info
+        where
+          u_id = #{uId,jdbcType=INTEGER}
+        and
+          code = #{code,jdbcType=INTEGER}
+
+    </select>
+
+
+    <select id="queryByUid" resultMap="BaseMap">
+        select
+        <include refid="BaseSql"/>
+        from image_info
+        where
+          u_id = #{uId,jdbcType=INTEGER}
+    </select>
+</mapper>

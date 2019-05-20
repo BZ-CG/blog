@@ -13,6 +13,13 @@ import java.util.List;
 @Repository
 public interface UserDAO {
 
+    /**
+     * 通过名字获取 user 信息.
+     * @param name
+     * @return
+     */
+    User getByName(String name);
+
     List<User> getAllUser();
 
     User getUserById(Integer id);

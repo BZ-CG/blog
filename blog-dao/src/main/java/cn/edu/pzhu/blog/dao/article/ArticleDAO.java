@@ -15,6 +15,13 @@ import java.util.List;
 public interface ArticleDAO {
 
     /**
+     * 获取文章数量.
+     * @param uId
+     * @return
+     */
+    Integer getCount(Integer uId);
+
+    /**
      * 修改文章内容.
      * @param article
      */

@@ -14,6 +14,20 @@ import java.util.List;
 public interface TagDAO {
 
     /**
+     * 获取标签数量.
+     * @param uId
+     * @return
+     */
+    Integer getCount(Integer uId);
+
+    /**
+     * 根据 id 删除(用于标签管理界面)
+     * @param uId
+     * @param id
+     */
+    void deleteById(Integer uId, Integer id);
+
+    /**
      * 通过id获取标签信息.
      * @param id
      * @return

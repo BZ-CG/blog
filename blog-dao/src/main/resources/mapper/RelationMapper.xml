@@ -19,6 +19,13 @@
         id, u_id, a_id, item_id, name, iden, modify_date, create_date
     </sql>
 
+    <delete id="deleteByItemId">
+        delete from relation
+        where item_id = #{itemId,jdbcType=INTEGER}
+        and u_id = #{uId,jdbcType=INTEGER}
+        and iden = #{iden,jdbcType=INTEGER}
+    </delete>
+
     <delete id="deleteByIds" parameterType="java.util.List">
         delete from relation
         where id in
@@ -33,6 +40,7 @@
         from relation
         where item_id = #{itemId,jdbcType=INTEGER}
         and iden = #{type,jdbcType=INTEGER}
+        and u_id = #{uId,jdbcType=INTEGER}
 
     </select>
 

@@ -13,6 +13,19 @@ import java.util.List;
 public interface MessageDAO {
 
     /**
+     * 获取留言数量.
+     * @param uId
+     * @return
+     */
+    Integer getCount(Integer uId);
+
+    /**
+     * 按 id 删除留言.
+     * @param id
+     */
+    void deleteById(Integer id);
+
+    /**
      * 新增留言.
      * @param message
      */
