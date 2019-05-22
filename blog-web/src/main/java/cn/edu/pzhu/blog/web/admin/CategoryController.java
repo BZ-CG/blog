@@ -3,8 +3,6 @@ package cn.edu.pzhu.blog.web.admin;
 import cn.edu.pzhu.base.response.ApiResponse;
 import cn.edu.pzhu.blog.dao.category.model.Category;
 import cn.edu.pzhu.blog.service.category.CategoryService;
-import cn.edu.pzhu.blog.service.category.TagService;
-import cn.edu.pzhu.blog.service.category.impl.TagServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +25,28 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    @ResponseBody
+    public ApiResponse update(Integer id, String name) {
+        Integer uId = 1;
+        try {
+            Category categoryByName = categoryService.getCategoryByName(uId, name);
+            if (categoryByName != null) {
+                return ApiResponse.error("分类重复!");
+            } else {
+                Category category = new Category();
+                category.setName(name);
+                category.setId(id);
+
+                categoryService.updateCategory(category);
+                return ApiResponse.success();
+            }
+        } catch (Exception e) {
+            log.error("CategoryController.update 修改分类失败。", e);
+            return ApiResponse.error("操作失败!");
+        }
+    }
+
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     @ResponseBody
     public ApiResponse query() {
@@ -47,13 +67,26 @@ public class CategoryController {
     public ApiResponse addCategory(@RequestParam("name") String name) {
         Integer userId = 1;
         try {
-            if (categoryService.getCategoryByName(name) != null) {
+            if (categoryService.getCategoryByName(userId, name) != null) {
                 return ApiResponse.error("该分组已存在.");
             }
             categoryService.addCategory(userId, name);
         } catch (Exception e) {
             log.error("CategoryController.addCategory 添加分类失败。", e);
             return ApiResponse.error("添加分类失败，请联系管理员.");
+        }
+        return ApiResponse.success();
+    }
+
+    @RequestMapping(value = "delete", method = RequestMethod.GET)
+    @ResponseBody
+    public ApiResponse delete(Integer id) {
+        Integer uId = 1;
+        try {
+            categoryService.deleteById(uId, id);
+        } catch (Exception e) {
+            log.error("CategoryController.delete 删除分类失败。", e);
+            return ApiResponse.error("操作失败");
         }
         return ApiResponse.success();
     }

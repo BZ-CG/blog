@@ -28,11 +28,16 @@ public class ArticleDTOConverter {
             return null;
         }
         ArticleDTO articleDTO = new ArticleDTO();
+        articleDTO.setId(articleJO.getId());
         articleDTO.setUId(articleJO.getUId());
         articleDTO.setTitle(articleJO.getTitle());
         articleDTO.setContent(articleJO.getContent());
-        if (!StringUtils.isEmpty(articleJO.getTags())) {
-            List<String> tags = new ArrayList(Arrays.asList(articleJO.getTags().split(",")));
+        articleDTO.setImageStr(articleJO.getImageStr());
+        if (!CollectionUtils.isEmpty(articleJO.getTagIds())) {
+            List<Integer> tags = Lists.newArrayList();;
+            for (String tagId : articleJO.getTagIds()) {
+                tags.add(Integer.valueOf(tagId));
+            }
             articleDTO.setTagList(tags);
         }
 
