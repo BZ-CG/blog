@@ -5,18 +5,72 @@
     <title>Title</title>
 </head>
 <body>
+
+    <div class="rightDiv" id="rightDiv">
+        <div style="width: 80%">
+            <div id="weather-view-he" style="width: auto"></div>
+            <script>
+                WIDGET = {ID: 'uaWbFzVAF5'};
+            </script>
+        </div>
+        <div class="hotListDiv">
+            <div class="classificationTitle">
+                <h2>热门排行</h2>
+            </div>
+            <ul class="hotListUi"></ul>
+        </div>
+        <div class="myClassification">
+            <div class="classificationTitle">
+                <h2>个人分类</h2>
+            </div>
+            <div class="fenlei"></div>
+        </div>
+        <!--<div class="myClassification">-->
+        <!--<div class="classificationTitle">-->
+        <!--<h2>归档</h2>-->
+        <!--</div>-->
+        <!--<div class="guidangDiv"></div>-->
+        <!--</div>-->
+
+        <!--<div class="myClassification">-->
+        <!--<div class="classificationTitle">-->
+        <!--<h2>友情链接</h2>-->
+        <!--</div>-->
+        <!--<div class="guidangDiv">-->
+        <!--<a href="/life.html">杭电</a>-->
+        <!--<a href="/life.html">LectCode</a>-->
+        <!--<a href="/life.html">剑指offer</a>-->
+        <!--<a href="/life.html">知乎</a>-->
+        <!--<a href="/life.html">慕课网</a>-->
+        <!--<a href="/life.html">谷粒学院</a>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="myClassification">-->
+        <!--<div class="classificationTitle">-->
+        <!--<h2>标签云</h2>-->
+        <!--</div>-->
+        <!--<div class="fenlei">-->
+        <!--<a>2019/03</a>-->
+        <!--<a>2019/02</a>-->
+        <!--<a>2019/01</a>-->
+        <!--<a>2019/01</a>-->
+        <!--<a>2019/01</a>-->
+        <!--<a>2019/01</a>-->
+        <!--</div>-->
+        <!--</div>-->
+    </div>
     <div id="headDiv">
-        <header class="am-topbar am-topbar-inverse am-topbar-fixed-top">
+        <header class="am-topbar am-topbar-inverse am-topbar-fixed-top" style="background: rgba(255,255,255,0.1);border-style: none;">
             <div class="am-container">
                 <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse-4">
                     <ul class="am-nav am-nav-pills am-topbar-nav">
-                        <li><a href="/">首页</a></li>
+                        <li><a th:href="@{/blog/toIndex}">首页</a></li>
                         <li><a th:href="@{/blog/toBlogPage}">文章</a></li>
                         <li><a th:href="@{/blog/toaboutMe}">关于我</a></li>
                         <li><a th:href="@{/blog/toMessageBoard}">留言板</a></li>
                         <li><a th:href="@{/blog/toDonationPage}">支持作者</a></li>
-                        <li><a href="/about">个人日记</a></li>
-                        <li><a href="/about">意见反馈</a></li>
+                        <!--<li><a href="/about">个人日记</a></li>-->
+                        <li><a th:href="@{/blog/friendLinks}">友链</a></li>
 
                     </ul>
                 </div>

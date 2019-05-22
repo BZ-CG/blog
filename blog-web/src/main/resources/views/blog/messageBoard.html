@@ -2,25 +2,28 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>留言板</title>
     <link href="/css/index.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="/assets/css/amazeui.min.css">
     <link rel="stylesheet" href="/assets/css/app.css">
+
     <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/js/common.js"></script>
 
     <style>
         html, body{
             width: 100%;
             /*background-color: #eeeeee;*/
-            background: url("/img/296494-106.jpg") no-repeat;
+            /*background: url("/img/296494-106.jpg") no-repeat;*/
         }
 
         .fatherDiv{
-            width: 80%;
-            margin-left: 10%;
+            /*width: 80%;*/
+            /*margin-left: 10%;*/
             height: auto;
             margin-top: 5%;
             background-color: #fff;
+            opacity: .9;
         }
         .fatherDiv p{
             text-align: center;
@@ -30,12 +33,13 @@
             background-color: #f2f2f2;
             margin-bottom: 20px;
         }
-        .messageDiv{
-            border: 1px solid red;
-            width: 80%;
-            margin-left: 10%;
+        .messageFatherDiv{
+            /*border: 1px solid red;*/
+            /*width: 80%;*/
+            /*margin-left: 10%;*/
             background-color: #fff;
             margin-top: 10px;
+            opacity: .9;
         }
         .userName, .textInfo, .dateDiv{
             padding: 5px 80px;
@@ -45,6 +49,12 @@
         }
         .imgDiv{
             float: left;
+            width: 50px;
+            height: 50px;
+        }
+        .am-circle{
+            width: 50px;
+            height: 50px;
         }
         .inputDiv{
             width: 20%;
@@ -55,54 +65,225 @@
         .submitBtn{
             margin-bottom: 10px;
         }
+        .fatherDiv h1{
+            font-weight: 700;
+            padding: 15px;
+            text-align: center;
+        }
+        .positionSpan{
+            padding-left: 5px;
+        }
+        .dateSpan{
+            padding-left: 10px;
+        }
+
     </style>
+    <script>
+        $(function(){
+            buildMessageList(1);
+
+            $(".submitBtn").on("click", function() {
+                var qq = $("#qqNumberInput").val();
+                var content = $(".messageArea").val();
+                var qqFlag = isQQ(qq);
+
+                if (!qqFlag) {
+                    alert("QQ号码不合法!");
+                    return;
+                }
+
+                if (content == "") {
+                    alert("留言内容不能为空!");
+                    return;
+                }
+
+                if (content.length > 200) {
+                    alert("留言字数超过两百!");
+                    return;
+                }
+                addMessage(qq, content);
+            });
+
+        });
+
+        var addMessage = function(qqNumber, content) {
+            $.ajax({
+                url:"/article/addMessage",
+                type:"POST",
+                data:{"qqNumber":qqNumber,"content":content},
+                dataType:"JSON",
+                success:function (data) {
+                    if (data.head.status == "N") {
+                        alert(data.head.message);
+                    } else {
+                        buildMessageList(1);
+                        //console.log(data);
+                    }
+                }
+            })
+        }
+
+        var buildMessageList = function(index) {
+            $(".messageDiv").empty();
+            $.ajax({
+                url:"/article/getMessageList",
+                type:"GET",
+                data:{"index":index},
+                dataType:"JSON",
+                success:function(data) {
+                    if (data.head.status == "N") {
+                        alert(data.head.message);
+                    } else {
+                        $.each(data.body.list, function(index, item) {
+                            var messageDiv = $("<div></div>").addClass("message");
+
+                            var img = $("<img></img>").addClass("am-circle").attr("src", item.qqImage);
+                            var imgDiv = $("<div></div>").addClass("imgDiv");
+                            imgDiv.append(img);
+
+                            var userNameDiv = $("<div></div>").append($("<p></p>").append(item.qqName)).addClass("userName");
+
+
+                            var textInfoDiv = $("<div style='font-weight: 550;'></div>").addClass("textInfo").append(item.content);
+
+                            var dateDiv = $("<div></div>").addClass("dateDiv");
+                            var positionDiv = $("<span></span>").append($("<i></i>").addClass("am-icon-map-marker"))
+                                .append($("<span></span>").addClass("positionSpan").append(item.position));
+                            var dateSpan = $("<span></span>").append(dateFormatter(item.writeTime)).addClass("dateSpan");
+                            dateDiv.append(positionDiv).append(dateSpan);
+
+
+                            messageDiv.append(imgDiv).append(userNameDiv).append(textInfoDiv)
+                                .append(dateDiv).append($('<hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />'))
+                                .appendTo($(".messageDiv"));
+                        });
+                        buildNavi(data.body);
+                    }
+                }
+            });
+        };
+
+        /**
+         * 构建导航栏.
+         * @param flag
+         * @param data
+         */
+        var buildNavi = function(data) {
+            var curPage = data.pageNum;
+            var pageTotal = data.pages;
+            var total = data.total;
+
+            //清空
+            $(".navi").empty();
+            var ul = $("<ul></ul>").addClass("am-pagination am-pagination-centered");
+            var firstPage = $("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
+            var endPage = $("<li></li>").append($("<a></a>").append("末页").attr("href","#"));
+            var lastPage = $("<li></li>").append($("<a></a>").attr("href","#")
+                .append("&laquo;"));
+            var nextPage = $("<li></li>").append($("<a></a>").attr("href","#")
+                .append("&raquo;"));
+
+            if(curPage <= 1){
+                lastPage.addClass("am-disabled");
+                firstPage.addClass("am-disabled");
+                nextPage.click(function(){
+                    buildMessageList(curPage + 1);
+                });
+                endPage.click(function(){
+                    buildMessageList(pageTotal);
+                });
+            }
+            if(curPage >= pageTotal){
+                nextPage.addClass("am-disabled");
+                endPage.addClass("am-disabled");
+                lastPage.click(function(){
+                    buildMessageList(curPage - 1);
+                });
+                firstPage.click(function(){
+                    buildMessageList(1);
+                });
+            }
+            //添加首页和上一页
+            ul.append(firstPage).append(lastPage);
+            //添加当前显示的导航页
+            $.each(data.navigatepageNums,function(index,item){
+                var numLi = $("<li></li>").append($("<a></a>").append(item));
+                if(item == curPage){
+                    numLi.addClass("am-active");
+                }
+                if (item != curPage) {
+                    //添加点击事件
+                    numLi.click(function(){
+                        buildMessageList(item);
+                    });
+                }
+                ul.append(numLi);
+            });
+            //添加下一页和末页
+            ul.append(nextPage).append(endPage);
+            $("<nav></nav>").append(ul).appendTo($(".navi"));
+        }
+
+    </script>
 </head>
-<body>
+<body th:style="'background:url(' + @{(${url})} + ');background-attachment: fixed'">
     <div th:replace="/commons/bar::#headDiv"></div>
-    <div class="fatherDiv">
-        <p>写个留言</p>
-        <div class="am-form-group am-form-icon inputDiv">
-            <i class="am-icon-qq"></i>
-            <input type="text" class="am-form-field" placeholder="QQ号码" style="background-color: #f2f2f2;">
+    <div class="am-g">
+        <div class="am-u-sm-10 am-u-sm-offset-1">
+            <div class="fatherDiv">
+                <h1>写个留言</h1>
+                <div class="am-form-group am-form-icon inputDiv">
+                    <i class="am-icon-qq"></i>
+                    <input type="number" class="am-form-field" id="qqNumberInput" placeholder="QQ号码" style="background-color: #f2f2f2;">
+                </div>
+                <textarea class="form-control messageArea" rows="3" placeholder="说点什么吧!"></textarea>
+                <br/>
+                <a class="am-btn am-btn-success submitBtn">留言</a>
+            </div>
+            <div class="messageFatherDiv">
+                <p>最新留言</p>
+                <hr/>
+                <div class="messageDiv">
+                    <div class="message">
+                        <div class="imgDiv">
+                            <img class="am-circle" src="http://s.amazeui.org/media/i/demos/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80" width="50" height="50"/>
+                        </div>
+                        <div class="userName">
+                            <p>xxxxx</p>
+                        </div>
+                        <div class="textInfo">
+                            这是一条留言信息
+                        </div>
+                        <div class="dateDiv">
+                            2019-01-26 10:26:06
+                        </div>
+                        <hr/>
+                    </div>
+                    <div class="message">
+                        <div class="imgDiv">
+                            <img class="am-circle" src="http://q1.qlogo.cn/g?b=qq&nk=1245978718&s=100" width="50" height="50"/>
+                        </div>
+                        <div class="userName">
+                            <p>张超</p>
+                        </div>
+                        <div class="textInfo">
+                            博主我觉得你很帅.
+                        </div>
+                        <div class="dateDiv">
+                        <span>
+                            <i class="am-icon-map-marker"></i>
+                            <span class="positionSpan">四川巴中</span>
+                        </span>
+                            <span class="dateSpan">2019-01-26 10:26:06</span>
+                        </div>
+                        <hr/>
+                    </div>
+                </div>
+
+            </div>
+            <div class="navi"></div>
         </div>
-        <textarea class="form-control messageArea" rows="3" placeholder="说点什么吧!"></textarea>
-        <br/>
-        <button type="button" class="am-btn am-btn-success am-round submitBtn">留言</button>
-        <!--<img src="http://q1.qlogo.cn/g?b=qq&nk=1245978718&s=100"/>-->
     </div>
-    <div class="messageDiv">
-        <p>最新留言</p>
-        <hr/>
-        <div class="message">
-            <div class="imgDiv">
-                <img class="am-circle" src="http://s.amazeui.org/media/i/demos/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80" width="50" height="50"/>
-            </div>
-            <div class="userName">
-                <p>xxxxx</p>
-            </div>
-            <div class="textInfo">
-                这是一条留言信息
-            </div>
-            <div class="dateDiv">
-                2019-01-26 10:26:06
-            </div>
-            <hr/>
-        </div>
-        <div class="message">
-            <div class="imgDiv">
-                <img class="am-circle" src="http://q1.qlogo.cn/g?b=qq&nk=1245978718&s=100" width="50" height="50"/>
-            </div>
-            <div class="userName">
-                <p>张超</p>
-            </div>
-            <div class="textInfo">
-                博主我觉得你很帅.
-            </div>
-            <div class="dateDiv">
-                2019-01-26 10:26:06
-            </div>
-            <hr/>
-        </div>
-    </div>
+
 </body>
 </html>

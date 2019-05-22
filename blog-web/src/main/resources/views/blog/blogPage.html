@@ -5,18 +5,20 @@
     <title>Title</title>
     <link href="/webjars/bootstrap/4.3.1/css/bootstrap.css" rel="stylesheet" type="text/css"/>
     <link href="/css/index.css" rel="stylesheet" type="text/css"/>
+    <!--<link href="/css/blogPage.css" rel="stylesheet" type="text/css"/>-->
     <link rel="stylesheet" href="/assets/css/amazeui.min.css">
     <link rel="stylesheet" href="/assets/css/app.css">
 
     <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
     <script src="/assets/js/amazeui.min.js"></script>
+    <script src="/js/common.js"></script>
     <!--天气预报插件-->
     <script type="text/javascript" src="https://apip.weatherdt.com/view/static/js/r.js?v=1111"></script>
     <style>
         body{
-            width: 100%;
-            height: 100%;
-            background-color: #eeeeee;
+            background-size:cover;
+            background-attachment:fixed;
+            background-color:#CCCCCC;
         }
         .left{
             width: 58%;
@@ -26,13 +28,13 @@
             /*overflow-y:scroll;*/
             overflow-y: auto;
         }
-        #right{
+        .rightDiv{
             width: 36%;
             /*border:1px solid ;*/
             /*overflow-y:scroll;*/
             overflow-y: auto;
         }
-        #center{
+        .centerDiv{
             padding-top: 10px;
             display: flex;
             justify-content: space-between;
@@ -42,11 +44,13 @@
             margin: 10px 0px;
             /*border:1px solid red;*/
             width: 80%;
+            opacity: .9;
         }
         .hotListDiv{
             background-color: #fff;
             margin: 10px 0px;
-            width: 93%;
+            width: 85%;
+            opacity: .9;
         }
         .classificationTitle{
             height: 45px;
@@ -84,6 +88,7 @@
             height: 203px;
             width: 100%;
             /*border: 1px solid red;*/
+            opacity: .9;
         }
         .blogListTitle{
             line-height: 20px;
@@ -138,7 +143,7 @@
         .hotListUi li{
             padding: 2px 10px 0px 0px;
         }
-        .hotListUi a{
+        .hotlist_a{
             padding: 0px 0px 0px 10px;text-decoration: none;color: #00a67c;
         }
         .hotListSpan{
@@ -160,235 +165,149 @@
             text-decoration: none;
             font-size: 16px;
         }
+        .articleImgDiv{
+            width: 100%;
+            height: 123px;
+        }
+        .contentDiv{
+            margin-left: 200px;
+            width: 70%;
+            color: #777;
+            line-height: 24px;
+            margin-bottom: 0;
+            font-style: normal;
+
+            display: block;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            display:-webkit-box;
+            -webkit-line-clamp:3;    /*定义的数字为显示的行数*/
+            -webkit-box-orient:vertical;
+
+        }
+        #messageSpan{
+            display: block;
+            text-align: center;
+        }
+        .categoryLabel{
+            background-color: #d9534f;
+            display: inline;
+            padding: .2em .6em .3em;
+            font-size: 75%;
+            font-weight: bold;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: .25em;
+            text-decoration: none;
+        }
+        .titleA{
+            color: #00a67c;
+            text-decoration: none;
+        }
     </style>
+    <script>
+        $(function() {
+            buildHotList();
+            buildClassificationList();
+            const total = buildArticleList(1);
+
+            var index = 1;
+            $(window).scroll(function() {
+                if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+                    index++;
+                    if (index <= total) {
+                        buildArticleList(index);
+                    } else {
+                        $("#messageSpan").show();
+                        //alert("数据已全部加载.");
+                    }
+                    // alert("滚动条已经到达底部为"+ $(document).scrollTop());
+                }
+
+            });
+        });
+
+
+        var buildArticleList = function(index) {
+            var total = 0;
+            $.ajax({
+                url:"/article/getArticleList",
+                type:"GET",
+                data:{"index":index},
+                dataType:"JSON",
+                async:false,
+                success:function(data) {
+                    if (data.head.status == "N") {
+                        alert(data.head.message);
+                    } else {
+                        $.each(data.body, function(i, item) {
+                            var fDiv = $("<div></div>").addClass("rotationChart blogList");
+                            var header = $("<header></header>").addClass("blogListTitle")
+                                .append($("<a style='text-decoration: none'></a>")
+                                    .append(item.categoryName).addClass("categoryLabel")
+                                    .attr("href", "/blog/toArticleClassification?id="+item.categoryId+"&flag=1")
+                                    .attr("id", item.categoryId))
+                                .append($("<h2></h2>")
+                                    .append($("<a href='/article/getArticleDetails?aId="+item.id+"' style='text-decoration: none'></a>").append(item.title).addClass("titleA")));
+
+                            var articleImgDiv = $("<div></div>").addClass("articleImgDiv");
+                            var blogImgDiv = $("<div></div>").addClass("blogImgDiv");
+                            var img = $("<img></img>").addClass("blogImg").attr("src", item.imageUrl);
+                            blogImgDiv.append($("<a href='/article/getArticleDetails?aId="+item.id+"'></a>").append(img));
+
+                            articleImgDiv.append(blogImgDiv).append($("<div></div>").addClass("contentDiv").append(replaceStyle(item.content)));
+
+                            var p = $("<p></p>").addClass("auth-span");
+                            var dateSpan = $("<span></span>").append($('<i class="am-icon-clock-o"></i>')).append(dateFormatter(item.createDate));
+                            var readNumber = $("<span></span>").append($('<i class="am-icon-eye"></i>')).append(item.readNumber + " 浏览");
+                            // var comment = $("<span></span>").append($('<i class="am-icon-pencil"></i>')).append("");
+
+                            p.append(dateSpan).append(readNumber);
+
+                            fDiv.append(header).append(articleImgDiv).append(p).appendTo(".articleList");
+                            total = item.pages;
+                        })
+                    }
+
+                }
+            });
+            return total;
+        }
+        var replaceStyle = function(content) {
+            content = content.replace(/(\n)/g, "");
+            content = content.replace(/(\t)/g, "");
+            content = content.replace(/(\r)/g, "");
+            content = content.replace(/<\/?[^>]*>/g, "");
+            content = content.replace(/\s*/g, "");
+
+            return content;
+        }
+
+    </script>
 </head>
-<body style="height: 100%">
+<body th:style="'background:url(' + @{(${url})} + ');background-attachment: fixed'">
     <div th:replace="/commons/bar::#headDiv"></div>
 
-    <div id="center">
+    <div class="centerDiv">
         <div class="left">
-            <div >
+            <div id = "sliderDiv">
                 <div data-am-widget="slider" class="am-slider am-slider-b2" data-am-slider='{"controlNav":false}' >
-                    <ul class="am-slides">
-                        <li>
-                            <img src="http://s.amazeui.org/media/i/demos/bing-1.jpg">
-                        </li>
-                        <li>
-                            <img src="http://s.amazeui.org/media/i/demos/bing-2.jpg">
-                        </li>
-                        <li>
-                            <img src="http://s.amazeui.org/media/i/demos/bing-3.jpg">
-                        </li>
-                        <li>
-                            <img src="http://s.amazeui.org/media/i/demos/bing-4.jpg">
-                        </li>
+                    <ul class="am-slides" >
+                        <th:block th:each="article : ${articles}">
+                            <li>
+                                <img th:src="${article.imageUrl}">
+                            </li>
+                        </th:block>
                     </ul>
                 </div>
             </div>
-            <div class="rotationChart blogList">
-                <header class="blogListTitle">
-                    <a href="/">Java</a>
-                    <h2><a href="/">高并发编程</a></h2>
-                </header>
-                <div style="width: 100%;height: 123px;">
-                    <div class="blogImgDiv">
-                        <a href="/">
-                            <img class="blogImg" src="/img/296494-106.jpg"/>
-                        </a>
-                    </div>
-                    <span class="note">高并发编程，</span>
-                </div>
-                <p class="auth-span">
-                    <span>
-                        <i class="am-icon-clock-o"></i>
-                        2019/10/10
-                    </span>
-                    <span>
-                        <i class="am-icon-eye"></i>
-                        104浏览
-                    </span>
-                    <span>
-                        <i class="am-icon-pencil"></i>
-                        18 评论
-                    </span>
-                </p>
-            </div>
-            <div class="rotationChart blogList">
-                <header class="blogListTitle">
-                    <a href="/">Java</a>
-                    <h2><a href="/">高并发编程</a></h2>
-                </header>
-                <div style="width: 100%;height: 123px;">
-                    <div class="blogImgDiv">
-                        <a href="/">
-                            <img class="blogImg" src="/img/296494-106.jpg"/>
-                        </a>
-                    </div>
-                    <span class="note">高并发编程，</span>
-                </div>
-                <p class="auth-span">
-                    <span>2019/10/10</span>
-                    <span>104浏览</span>
-                    <span>18 评论</span>
-                </p>
-            </div>
-            <div class="rotationChart blogList">
-                <header class="blogListTitle">
-                    <a href="/">Java</a>
-                    <h2><a href="/">高并发编程</a></h2>
-                </header>
-                <div style="width: 100%;height: 123px;">
-                    <div class="blogImgDiv">
-                        <a href="/">
-                            <img class="blogImg" src="/img/296494-106.jpg"/>
-                        </a>
-                    </div>
-                    <span class="note">高并发编程，</span>
-                </div>
-                <p class="auth-span">
-                    <span>2019/10/10</span>
-                    <span>104浏览</span>
-                    <span>18 评论</span>
-                </p>
-            </div>
-            <div class="rotationChart blogList">
-                <header class="blogListTitle">
-                    <a href="/">Java</a>
-                    <h2><a href="/">高并发编程</a></h2>
-                </header>
-                <div style="width: 100%;height: 123px;">
-                    <div class="blogImgDiv">
-                        <a href="/">
-                            <img class="blogImg" src="/img/296494-106.jpg"/>
-                        </a>
-                    </div>
-                    <span class="note">高并发编程，</span>
-                </div>
-                <p class="auth-span">
-                    <span>
-                        <i class="am-icon-clock-o"></i>
-                        2019/10/10
-                    </span>
-                    <span>
-                        <i class="am-icon-eye"></i>
-                        104浏览
-                    </span>
-                    <span>
-                        <i class="am-icon-pencil"></i>
-                        18 评论
-                    </span>
-                </p>
-            </div>
+            <div class="articleList"></div>
+            <span id="messageSpan" style="display: none">没有更多数据了.</span>
         </div>
-        <div id="right">
-            <div style="width: 80%">
-                <div id="weather-view-he" style="width: auto"></div>
-                <script>
-                    WIDGET = {ID: 'uaWbFzVAF5'};
-                </script>
-            </div>
-            <div class="hotListDiv">
-                <div class="classificationTitle">
-                    <h2>热门排行</h2>
-                </div>
-                <ul class="hotListUi">
-                    <li>
-                        <span class="am-badge am-radius">1</span>
-                        <a href="/">2019第一篇文章</a>
-                        <span class="hotListSpan">
-                            <i class="am-icon-eye"></i>
-                            104浏览
-                        </span>
-                    </li>
-                    <li>
-                        <span class="am-badge am-radius am-badge-primary">2</span>
-                        <a href="/">2019第二篇文章</a>
-                        <span class="hotListSpan">
-                            <i class="am-icon-eye"></i>
-                            104浏览
-                        </span>
-                    </li>
-                    <li>
-                        <span class="am-badge am-radius am-badge-secondary">3</span>
-                        <a href="/">2019第三篇文章</a>
-                        <span class="hotListSpan">
-                            <i class="am-icon-eye"></i>
-                            104浏览
-                        </span>
-                    </li>
-                    <li>
-                        <span class="am-badge am-radius am-badge-success">4</span>
-                        <a href="/">2019第四篇文章</a>
-                        <span class="hotListSpan">
-                            <i class="am-icon-eye"></i>
-                            104浏览
-                        </span>
-                    </li>
-                    <li>
-                        <span class="am-badge am-radius am-badge-warning">5</span>
-                        <a href="/">2019第五篇文章</a>
-                        <span class="hotListSpan">
-                            <i class="am-icon-eye"></i>
-                            104浏览
-                        </span>
-                    </li>
-                </ul>
-            </div>
-            <div class="myClassification">
-                <div class="classificationTitle">
-                    <h2>个人分类</h2>
-                </div>
-                <div class="fenlei">
-                    <a href="/life.html">生活笔记</a>
-                    <a href="/life.html">Java</a>
-                    <a href="/life.html">C++</a>
-                    <a href="/life.html">数据库</a>
-                    <a href="/life.html">计算机组成原理</a>
-                    <a href="/life.html">大数据</a>
-                    <a href="/life.html">前端</a>
-                </div>
-            </div>
-            <div class="myClassification">
-                <div class="classificationTitle">
-                    <h2>归档</h2>
-                </div>
-                <div class="guidangDiv">
-                    <a href="/life.html">2019/03</a>
-                    <a href="/life.html">2019/02</a>
-                    <a href="/life.html">2019/01</a>
-                    <a href="/life.html">2019/01</a>
-                    <a href="/life.html">2019/01</a>
-                    <a href="/life.html">2019/01</a>
-                </div>
-            </div>
-
-            <div class="myClassification">
-                <div class="classificationTitle">
-                    <h2>友情链接</h2>
-                </div>
-                <div class="guidangDiv">
-                    <a href="/life.html">杭电</a>
-                    <a href="/life.html">LectCode</a>
-                    <a href="/life.html">剑指offer</a>
-                    <a href="/life.html">知乎</a>
-                    <a href="/life.html">慕课网</a>
-                    <a href="/life.html">谷粒学院</a>
-                </div>
-            </div>
-            <div class="myClassification">
-                <div class="classificationTitle">
-                    <h2>标签云</h2>
-                </div>
-                <div class="fenlei">
-                    <a>2019/03</a>
-                    <a>2019/02</a>
-                    <a>2019/01</a>
-                    <a>2019/01</a>
-                    <a>2019/01</a>
-                    <a>2019/01</a>
-                </div>
-            </div>
-        </div>
+        <div th:replace="/commons/bar::#rightDiv"></div>
     </div>
     <!--<div th:replace="commons/bar::#footDiv"></div>-->
 </body>

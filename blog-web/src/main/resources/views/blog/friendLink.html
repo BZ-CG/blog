@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>友链</title>
+    <link href="/css/index.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="/assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="stylesheet" href="/css/friendLink.css">
+
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/js/common.js"></script>
+
+    <script>
+        $(function () {
+            const total = buildData(1);
+            var index = 1;
+            $(window).scroll(function() {
+                if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+                    index++;
+                    if (index <= total) {
+                        buildData(index);
+                    }
+                    // alert("滚动条已经到达底部为"+ $(document).scrollTop());
+                }
+
+            });
+        })
+
+        var buildData = function(index) {
+            var total = 0;
+            $.ajax({
+               url:"/article/getFriendLink",
+               type:"GET",
+               data:{"index":index},
+               dataType:"JSON",
+               async:false,     //同步
+               success:function(data) {
+                   if (data.head.status == "N") {
+                       alert(data.head.message);
+                   } else {
+                      $.each(data.body.list, function (index, item) {
+                          var li = $("<li></li>");
+                          var div= $("<div></div>").addClass("pd-lr-10");
+                          var a = $("<a></a>").attr("href", item.linkUrl).attr("target", "_blank");
+                          var img = $("<img></img>").attr("src", item.imageUrl);
+                          a.append(img).append($("<h3></h3>").append(item.name))
+                              .append($("<p></p>").append(item.content));
+
+                          div.append(a);
+                          li.append(div).appendTo($(".link-list"));
+                      });
+                      total = data.body.pages;
+                   }
+               }
+            });
+            return total;
+        }
+    </script>
+    <style>
+        .pd-lr-10{
+            opacity: .9;
+        }
+    </style>
+</head>
+<body th:style="'background:url(' + @{(${url})} + ');background-attachment: fixed'">
+    <div th:replace="/commons/bar::#headDiv"></div>
+    <div class="centerDiv">
+        <ul class="link-list">
+            <!--<li>-->
+                <!--<div class="pd-lr-10">-->
+                    <!--<a href="http://www.yanzhaochang.top" target="_blank">-->
+                        <!--<img src="http://q1.qlogo.cn/g?b=qq&amp;nk=1070650845&amp;s=100">-->
+                        <!--<h3>静待花开</h3>-->
+                        <!--<p>愿时光不负有心人</p>-->
+                    <!--</a>-->
+                <!--</div>-->
+            <!--</li>-->
+
+            <!--<li>-->
+                <!--<div class="pd-lr-10">-->
+                    <!--<a href="http://www.4jax.net/log/" target="_blank">-->
+                        <!--<img src="http://www.4jax.net/log/favicon.ico">-->
+                        <!--<h3>无名的碎语</h3>-->
+                        <!--<p>无名的碎语</p>-->
+                    <!--</a>-->
+                <!--</div>-->
+            <!--</li>-->
+
+            <!--<li>-->
+                <!--<div class="pd-lr-10">-->
+                    <!--<a href="https://www.fjwsite.com" target="_blank">-->
+                        <!--<img src="https://www.fjwsite.com/static/home/madison_barnett-90x90.jpg">-->
+                        <!--<h3>十七</h3>-->
+                        <!--<p>三旬尚远浓烟散，一如年少迟夏归</p>-->
+                    <!--</a>-->
+                <!--</div>-->
+            <!--</li>-->
+
+            <!--<li>-->
+                <!--<div class="pd-lr-10">-->
+                    <!--<a href="https://www.eyesmoons.com" target="_blank">-->
+                        <!--<img src="https://www.eyesmoons.com/templates/sheng/images/eyesmoons.ico">-->
+                        <!--<h3>月眸</h3>-->
+                        <!--<p>java技术交流，技术分享，资源分享</p>-->
+                    <!--</a>-->
+                <!--</div>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<div class="pd-lr-10">-->
+                    <!--<a href="http://www.qbl.link" target="_blank">-->
+                        <!--<img src="http://www.qbl.link/Content/Web/favicon.ico">-->
+                        <!--<h3>Q-Blog</h3>-->
+                        <!--<p>一个.NET程序员的个人博客</p>-->
+                    <!--</a>-->
+                <!--</div>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<div class="pd-lr-10">-->
+                    <!--<a href="https://www.leileiqq.com/" target="_blank">-->
+                        <!--<img src="https://www.leileiqq.com/upload/201805/26/201805262049330641.jpeg">-->
+                        <!--<h3>徐德雷个人博客</h3>-->
+                        <!--<p>徐德雷个人博客 - 一个站在web前端开发之路的搬砖工</p>-->
+                    <!--</a>-->
+                <!--</div>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<div class="pd-lr-10">-->
+                    <!--<a href="https://me.csdn.net/PZHU_CG_CSDN" target="_blank">-->
+                        <!--<img src="http://pq9hn0x7y.bkt.clouddn.com/1556025755619.jpg">-->
+                        <!--<h3>PZHU_CG_CSDN</h3>-->
+                        <!--<p>一个奋斗的小青年</p>-->
+                    <!--</a>-->
+                <!--</div>-->
+            <!--</li>-->
+        </ul>
+    </div>
+
+
+</body>
+</html>

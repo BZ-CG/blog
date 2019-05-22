@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${name}"></title>
+    <link href="/webjars/bootstrap/4.3.1/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/index.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="/assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/assets/css/app.css"/>
+    <link rel="stylesheet" href="/css/articlePageRightDiv.css"/>
+    <link rel="stylesheet" href="/css/articleClassification.css"/>
+
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="/assets/js/amazeui.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script src="/js/articleClassification.js"></script>
+    <!--天气预报插件-->
+    <script type="text/javascript" src="https://apip.weatherdt.com/view/static/js/r.js?v=1111"></script>
+    <style>
+        /*body{*/
+            /*width: 100%;*/
+            /*height: 100%;*/
+            /*background-color: #eeeeee;*/
+        /*}*/
+        /*.centerDiv{*/
+            /*padding-top: 10px;*/
+            /*display: flex;*/
+            /*justify-content: space-between;*/
+        /*}*/
+        /*.left{*/
+            /*width: 58%;*/
+            /*height: 50%;*/
+            /*margin-left: 4%;*/
+            /*overflow-y: auto;*/
+        /*}*/
+        /*a{*/
+            /*text-decoration: none;*/
+        /*}*/
+        /*.colorClass{*/
+            /*color:#00a67c;*/
+            /*text-decoration: none;*/
+        /*}*/
+        /*.breadcrumbs{*/
+            /*margin: 0 0 1px;*/
+            /*padding: 9px 20px 7px;*/
+            /*background-color: #fff;*/
+        /*}*/
+        /*.auth-span{*/
+            /*float: right;*/
+            /*!*position: absolute;*!*/
+            /*right: 0;*/
+            /*font-size: 13px;*/
+            /*margin-top: 0px;*/
+        /*}*/
+
+        /*.blogList{*/
+            /*background-color: #fff;*/
+            /*padding: 10px 15px 30px 20px;*/
+            /*margin: 10px 0px;*/
+            /*height: 203px;*/
+            /*width: 100%;*/
+            /*!*border: 1px solid red;*!*/
+        /*}*/
+        /*.blogListTitle{*/
+            /*line-height: 20px;*/
+            /*margin: 0 10px 15px 0;*/
+        /*}*/
+        /*.blogImgDiv{*/
+            /*float: left;*/
+            /*margin: 0 20px 0 0;*/
+            /*text-align: center;*/
+            /*position: relative;*/
+            /*overflow: hidden;*/
+            /*display: table;*/
+        /*}*/
+        /*.blogImg{*/
+            /*width: 200px;*/
+            /*height: 123px;*/
+        /*}*/
+        /*.blogListTitle a{*/
+            /*position: relative;*/
+        /*}*/
+        /*.blogListTitle h2{*/
+            /*display: inline;*/
+            /*font-size: 20px;*/
+            /*margin: 0;*/
+            /*font-weight: normal;*/
+            /*position: relative;*/
+            /*top: 1px;*/
+            /*line-height: 25px;*/
+            /*margin-left: 10px;*/
+        /*}*/
+        /*.auth-span{*/
+            /*float: right;*/
+            /*!*position: absolute;*!*/
+            /*right: 0;*/
+            /*font-size: 13px;*/
+            /*margin-top: 0px;*/
+        /*}*/
+        /*.auth-span span{*/
+            /*padding: 0px 8px;*/
+        /*}*/
+        /*.articleImgDiv{*/
+            /*width: 100%;*/
+            /*height: 123px;*/
+        /*}*/
+        /*.contentDiv{*/
+            /*margin-left: 200px;*/
+            /*width: 70%;*/
+            /*color: #777;*/
+            /*line-height: 24px;*/
+            /*margin-bottom: 0;*/
+            /*font-style: normal;*/
+
+            /*display: block;*/
+            /*overflow:hidden;*/
+            /*text-overflow:ellipsis;*/
+            /*display:-webkit-box;*/
+            /*-webkit-line-clamp:3;    !*定义的数字为显示的行数*!*/
+            /*-webkit-box-orient:vertical;*/
+
+        /*}*/
+    </style>
+    <script>
+        $(function () {
+            buildHotList();
+            buildClassificationList();
+
+            var categoryId = '[[${category.id}]]';
+            var flag = [[${flag}]];
+
+            buildArticleDate(categoryId, flag, 1);
+        })
+    </script>
+</head>
+<body th:style="'background:url(' + @{(${url})} + ');background-attachment: fixed'">
+<div th:replace="/commons/bar::#headDiv"></div>
+<div class="centerDiv">
+    <div class="left">
+        <div class="breadcrumbs">
+            <a title="返回首页" href="/blog/toBlogPage"><span class="am-icon-home am-icon-md colorClass"></span></a>
+            <small>&gt;</small>
+            <a th:href="@{'/blog/toArticleClassification?id=' + ${category.id} + '&flag=1'}"
+               style="font-size: 17px" class="colorClass" th:text="${category.name}"></a>
+        </div>
+        <div class="articleList"></div>
+        <div class="navi"></div>
+    </div>
+    <div th:replace="/commons/bar::#rightDiv"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${articleJO.title}"></title>
+    <link href="/webjars/bootstrap/4.3.1/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/index.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="/assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/assets/css/app.css"/>
+    <link rel="stylesheet" href="/css/articlePageRightDiv.css"/>
+
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/assets/js/amazeui.min.js"></script>
+    <script src="/js/common.js"></script>
+    <!--天气预报插件-->
+    <script type="text/javascript" src="https://apip.weatherdt.com/view/static/js/r.js?v=1111"></script>
+    <style>
+        body{
+            width: 100%;
+            height: 100%;
+            background-color: #eeeeee;
+
+        }
+        .centerDiv{
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .left{
+            width: 58%;
+            height: 50%;
+            margin-left: 4%;
+            /*border: 1px solid green;*/
+            /*overflow-y:scroll;*/
+            overflow-y: auto;
+        }
+        a{
+            text-decoration: none;
+        }
+        .colorClass{
+            color:#00a67c;
+            text-decoration: none;
+        }
+        .breadcrumbs{
+            margin: 0 0 1px;
+            padding: 9px 20px 7px;
+            background-color: #fff;
+            opacity: .9;
+        }
+        .meta{
+            font-size: 12px;
+        }
+        .muted{
+            margin-right: 20px;
+            color: #999;
+        }
+        .article-header{
+            padding: 2px 20px 12px;
+            border-bottom: 1px solid #eee;
+            background-color: #fff;
+            opacity: .9;
+        }
+        .article{
+            background-color: #fff;
+            opacity: .9;
+        }
+        .article-footer{
+            background-color: #fff;
+            border-top: 1px solid #f7f7f7;
+            padding: 15px 20px;
+            margin-top: -18px;
+            opacity: .9;
+        }
+        .tagSpan{
+            background-color: #5cb85c;
+            padding: 2px 6px 3px;
+            margin: 0 2px;
+            color: #fff;
+            opacity: .70;
+        }
+        .livereDiv{
+            background-color: #fff;
+            margin-top: 1px;
+        }
+    </style>
+    <script>
+        $(function () {
+            buildHotList();
+            buildClassificationList();
+        })
+    </script>
+</head>
+<body th:style="'background:url(' + @{(${url})} + ');background-attachment: fixed'">
+    <div th:replace="/commons/bar::#headDiv"></div>
+    <div class="centerDiv">
+        <div class="left">
+            <div class="breadcrumbs">
+                <a title="返回首页" href="/blog/toBlogPage"><span class="am-icon-home am-icon-md colorClass"></span></a>
+                <small>&gt;</small>
+                <a th:href="@{'/blog/toArticleClassification?name=' + ${articleJO.categoryName} + '&flag=1'}"
+                   style="font-size: 17px" class="colorClass" th:text="${articleJO.categoryName}"></a>
+                <small>&gt;</small>
+                <span class="muted" style="font-size: 17px;color: #999;" th:text="${articleJO.title}"></span>
+            </div>
+            <header class="article-header">
+                <h1 class="article-title" style="text-align: center; margin: 15px 0" href="/getblogdetail.html?blogid=651" th:text="${articleJO.title}">
+                </h1>
+                <div class="meta" style="text-align: center">
+                    <span id="mute-category" class="muted"><span class="am-icon-list-alt am-icon-sm"></span><a href="#" style="padding-left: 7px" th:text="${articleJO.categoryName}"></a></span>
+                    <time class="muted"><span class="am-icon-clock-o am-icon-sm" th:text="${#dates.format(articleJO.createDate, 'yyyy-MM-dd HH:mm:ss')}"></span></time>
+                    <span class="muted" th:text="${articleJO.readNumber} + '浏览'"><span class="am-icon-eye am-icon-sm"></span></span>
+                    <!--<span class="muted"><span class="am-icon-pencil am-icon-sm"></span>-->
+                        <!--<a href="javascript:void(0);" id="changyan_count_unit">1</a>评论-->
+                    <!--</span>-->
+
+                </div>
+            </header>
+            <div class="article" contenteditable="true" th:utext="${articleJO.content}">
+            </div>
+            <footer class="article-footer">
+                <div>
+                    <span class="am-icon-tags am-icon-sm"></span>
+                    <span th:text="${articleJO.tagName}" class="tagSpan"></span>
+                </div>
+            </footer>
+            <div class="livereDiv">
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC80Mzc5OC8yMDMzNw==">
+                    <script type="text/javascript">
+                        (function(d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+            </div>
+        </div>
+        <div th:replace="/commons/bar::#rightDiv"></div>
+    </div>
+</body>
+</html>

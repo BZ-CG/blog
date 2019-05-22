@@ -16,10 +16,17 @@
             height: 100%;
             width: 100%;
         }
-
+        body{
+            background-size:cover;
+            background-attachment:fixed;
+            background-color:#CCCCCC;
+        }
+        header{
+            background: rgba(255,255,255,0.1);
+        }
     </style>
 </head>
-<body>
+<body th:style="'background:url(' + @{(${url})} + ')'">
     <div th:replace="commons/bar::#headDiv"></div>
 
     <div id="bg">
@@ -30,6 +37,6 @@
         </p>
     </div>
 
-    <div th:replace="commons/bar::#footDiv"></div>
+    <!--<div th:replace="commons/bar::#footDiv"></div>-->
 </body>
 </html>
